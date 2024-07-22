@@ -1,0 +1,35 @@
+version: 0.2
+phases:
+  install:
+#    runtime-versions:
+#      android: 29
+#      java: corretto17
+    commands:
+      - pwd
+  pre_build:
+    commands:
+      - echo Pre Build started on `date`
+      - git clone https://github.com/flutter/flutter.git -b 3.22.2
+      - export PATH="$PATH:`pwd`/flutter/bin"
+      - flutter precache
+      - flutter config --enable-web
+      - flutter pub get
+  build:
+    commands:
+      - echo Build started on `date`
+      - flutter clean
+      - dart run build_runner build --delete-conflicting-outputs
+      - flutter build web --release --base-href / -t lib/main_prod.dart
+      - ls -al
+      - ran=$RANDOM
+      - echo $ran
+      - sed -i "s|flutter\.js|flutter.js?v=$ran|" ./build/web/index.html
+      - sed -i "s|main\.dart\.js|main.dart.js?v=$ran|" ./build/web/flutter.js
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: no
+  base-directory: 'build/web'

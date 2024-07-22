@@ -1,0 +1,20 @@
+{
+    "flutter": {
+        "platforms": {
+            "dart": {
+                "lib/firebase_options_dev.dart": {
+                    "projectId": "devconduit-web",
+                    "configurations": {
+                        "web": "1:756808698986:web:ebf409bdf2c474250c8e13"
+                    }
+                },
+                "lib/firebase_options_prod.dart": {
+                    "projectId": "conduit-web",
+                    "configurations": {
+                        "web": "1:538752521211:web:d57f256f0ae4a0ebff315e"
+                    }
+                }
+            }
+        }
+    }
+}

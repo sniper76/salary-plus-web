@@ -1,0 +1,1 @@
+enum PollViewType { vote, result }
