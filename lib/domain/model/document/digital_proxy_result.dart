@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/document/document.dart';
+import 'package:salary_plus_web/domain/model/document/document.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'digital_proxy_result.freezed.dart';

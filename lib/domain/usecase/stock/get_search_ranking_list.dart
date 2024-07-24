@@ -1,6 +1,6 @@
-import 'package:act_web/data/response/data_response.dart';
-import 'package:act_web/domain/model/ranking/search_ranking.dart';
-import 'package:act_web/domain/repository/stock_repository.dart';
+import 'package:salary_plus_web/data/response/data_response.dart';
+import 'package:salary_plus_web/domain/model/ranking/search_ranking.dart';
+import 'package:salary_plus_web/domain/repository/stock_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class GetSearchRankingList {

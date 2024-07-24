@@ -1,7 +1,7 @@
-import 'package:act_web/domain/enum/user_role.dart';
-import 'package:act_web/domain/enum/user_status_type.dart';
-import 'package:act_web/domain/model/stock/base_stock.dart';
-import 'package:act_web/domain/model/user/badge_visibility.dart';
+import 'package:salary_plus_web/domain/enum/user_role.dart';
+import 'package:salary_plus_web/domain/enum/user_status_type.dart';
+import 'package:salary_plus_web/domain/model/stock/base_stock.dart';
+import 'package:salary_plus_web/domain/model/user/badge_visibility.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';

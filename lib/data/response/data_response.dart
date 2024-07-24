@@ -1,4 +1,4 @@
-import 'package:act_web/data/response/paging.dart';
+import 'package:salary_plus_web/data/response/paging.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'data_response.freezed.dart';

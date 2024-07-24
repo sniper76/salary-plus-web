@@ -1,9 +1,9 @@
-import 'package:act_web/core/util/helper.dart';
-import 'package:act_web/data/datasource/remote/api_datasource.dart';
-import 'package:act_web/data/response/data_response.dart';
-import 'package:act_web/domain/model/ranking/search_ranking.dart';
-import 'package:act_web/domain/model/stock_home/stock_home.dart';
-import 'package:act_web/domain/repository/stock_repository.dart';
+import 'package:salary_plus_web/core/util/helper.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_datasource.dart';
+import 'package:salary_plus_web/data/response/data_response.dart';
+import 'package:salary_plus_web/domain/model/ranking/search_ranking.dart';
+import 'package:salary_plus_web/domain/model/stock_home/stock_home.dart';
+import 'package:salary_plus_web/domain/repository/stock_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class StockRepositoryImpl implements StockRepository {

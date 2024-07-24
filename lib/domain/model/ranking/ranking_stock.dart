@@ -1,4 +1,4 @@
-import 'package:act_web/domain/enum/ranking_sort_type.dart';
+import 'package:salary_plus_web/domain/enum/ranking_sort_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ranking_stock.freezed.dart';

@@ -1,4 +1,4 @@
-import 'package:act_web/core/util/logo_utils.dart';
+import 'package:salary_plus_web/core/util/logo_utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

@@ -1,11 +1,11 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/domain/enum/board_group_type.dart';
-import 'package:act_web/domain/model/document/document.dart';
-import 'package:act_web/domain/model/document/holder_list_read_and_copy_digital_document.dart';
-import 'package:act_web/domain/model/post/board_group_category.dart';
-import 'package:act_web/domain/model/post/post_image.dart';
-import 'package:act_web/domain/model/stock/stock.dart';
-import 'package:act_web/domain/model/user/user_profile.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/domain/enum/board_group_type.dart';
+import 'package:salary_plus_web/domain/model/document/document.dart';
+import 'package:salary_plus_web/domain/model/document/holder_list_read_and_copy_digital_document.dart';
+import 'package:salary_plus_web/domain/model/post/board_group_category.dart';
+import 'package:salary_plus_web/domain/model/post/post_image.dart';
+import 'package:salary_plus_web/domain/model/stock/stock.dart';
+import 'package:salary_plus_web/domain/model/user/user_profile.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'post.freezed.dart';

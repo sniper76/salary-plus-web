@@ -1,4 +1,4 @@
-import 'package:act_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:html/parser.dart' as html_parser;

@@ -1,6 +1,6 @@
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/domain/model/user/user.dart';
-import 'package:act_web/domain/repository/auth_repository.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/domain/model/user/user.dart';
+import 'package:salary_plus_web/domain/repository/auth_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class FetchUserMe {

@@ -1,8 +1,8 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/extension/number_extension.dart';
-import 'package:act_web/domain/model/stock/solidarity.dart';
-import 'package:act_web/presentation/widget/act_logo_widget.dart';
-import 'package:act_web/presentation/widget/act_ranking_delta_widget.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/extension/number_extension.dart';
+import 'package:salary_plus_web/domain/model/stock/solidarity.dart';
+import 'package:salary_plus_web/presentation/widget/act_logo_widget.dart';
+import 'package:salary_plus_web/presentation/widget/act_ranking_delta_widget.dart';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';

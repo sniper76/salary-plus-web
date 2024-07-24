@@ -1,4 +1,4 @@
-import 'package:act_web/domain/enum/notice_level.dart';
+import 'package:salary_plus_web/domain/enum/notice_level.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'stock_home_notice.freezed.dart';

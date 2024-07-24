@@ -1,8 +1,8 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/extension/number_extension.dart';
-import 'package:act_web/domain/model/document/document.dart';
-import 'package:act_web/domain/model/document/poll_item.dart';
-import 'package:act_web/domain/model/post/board_group_category.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/extension/number_extension.dart';
+import 'package:salary_plus_web/domain/model/document/document.dart';
+import 'package:salary_plus_web/domain/model/document/poll_item.dart';
+import 'package:salary_plus_web/domain/model/post/board_group_category.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

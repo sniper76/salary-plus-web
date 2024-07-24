@@ -1,6 +1,6 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/route/app_router.dart';
-import 'package:act_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/route/app_router.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:get_it/get_it.dart';
 

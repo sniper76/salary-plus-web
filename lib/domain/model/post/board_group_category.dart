@@ -1,4 +1,4 @@
-import 'package:act_web/config/constants.dart';
+import 'package:salary_plus_web/config/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'board_group_category.freezed.dart';

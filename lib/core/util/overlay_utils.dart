@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/stock/base_stock.dart';
+import 'package:salary_plus_web/domain/model/stock/base_stock.dart';
 import 'package:flutter/material.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 

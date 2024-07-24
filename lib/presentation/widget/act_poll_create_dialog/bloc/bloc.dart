@@ -1,7 +1,7 @@
-import 'package:act_web/domain/enum/poll_selection_type.dart';
-import 'package:act_web/domain/enum/poll_vote_type.dart';
-import 'package:act_web/domain/model/post/poll_register_result.dart';
-import 'package:act_web/presentation/base/base_state_mixin.dart';
+import 'package:salary_plus_web/domain/enum/poll_selection_type.dart';
+import 'package:salary_plus_web/domain/enum/poll_vote_type.dart';
+import 'package:salary_plus_web/domain/model/post/poll_register_result.dart';
+import 'package:salary_plus_web/presentation/base/base_state_mixin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

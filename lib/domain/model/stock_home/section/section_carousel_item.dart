@@ -1,5 +1,5 @@
-import 'package:act_web/domain/model/stock_home/section/section_header.dart';
-import 'package:act_web/domain/model/stock_home/section/section_item.dart';
+import 'package:salary_plus_web/domain/model/stock_home/section/section_header.dart';
+import 'package:salary_plus_web/domain/model/stock_home/section/section_item.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'section_carousel_item.freezed.dart';

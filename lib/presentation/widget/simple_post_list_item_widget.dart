@@ -1,6 +1,6 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/extension/number_extension.dart';
-import 'package:act_web/domain/model/post/post.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/extension/number_extension.dart';
+import 'package:salary_plus_web/domain/model/post/post.dart';
 import 'package:flutter/material.dart';
 
 class SimplePostListItemWidget extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:act_web/domain/enum/digital_document_attach_option_type.dart';
+import 'package:salary_plus_web/domain/enum/digital_document_attach_option_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'digital_document_attach_options.freezed.dart';

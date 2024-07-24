@@ -1,4 +1,4 @@
-import 'package:act_web/config/constants.dart';
+import 'package:salary_plus_web/config/constants.dart';
 
 class DynamicLinkUtils {
   static String getDynamicLink([String? path]) {

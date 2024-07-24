@@ -1,5 +1,5 @@
-import 'package:act_web/domain/enum/search_type.dart';
-import 'package:act_web/domain/model/stock/stock.dart';
+import 'package:salary_plus_web/domain/enum/search_type.dart';
+import 'package:salary_plus_web/domain/model/stock/stock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'search_ranking.freezed.dart';

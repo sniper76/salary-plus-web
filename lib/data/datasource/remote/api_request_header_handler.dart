@@ -1,4 +1,4 @@
-import 'package:act_web/config/app_info.dart';
+import 'package:salary_plus_web/config/app_info.dart';
 
 class ApiRequestHeaderHandler {
   void setHeader(options, accessToken) {

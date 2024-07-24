@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/stock/solidarity.dart';
+import 'package:salary_plus_web/domain/model/stock/solidarity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

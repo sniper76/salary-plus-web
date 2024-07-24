@@ -1,8 +1,8 @@
-import 'package:act_web/core/util/helper.dart';
-import 'package:act_web/data/datasource/remote/api_datasource.dart';
-import 'package:act_web/data/response/data_response.dart';
-import 'package:act_web/domain/model/file/upload_image_file.dart';
-import 'package:act_web/domain/repository/web_repository.dart';
+import 'package:salary_plus_web/core/util/helper.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_datasource.dart';
+import 'package:salary_plus_web/data/response/data_response.dart';
+import 'package:salary_plus_web/domain/model/file/upload_image_file.dart';
+import 'package:salary_plus_web/domain/repository/web_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:multiple_result/multiple_result.dart';

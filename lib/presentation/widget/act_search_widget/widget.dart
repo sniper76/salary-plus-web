@@ -1,7 +1,7 @@
-import 'package:act_web/core/util/overlay_utils.dart';
-import 'package:act_web/domain/model/stock/base_stock.dart';
-import 'package:act_web/presentation/widget/act_search_widget/bloc/bloc.dart';
-import 'package:act_web/presentation/widget/act_text_form_field.dart';
+import 'package:salary_plus_web/core/util/overlay_utils.dart';
+import 'package:salary_plus_web/domain/model/stock/base_stock.dart';
+import 'package:salary_plus_web/presentation/widget/act_search_widget/bloc/bloc.dart';
+import 'package:salary_plus_web/presentation/widget/act_text_form_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

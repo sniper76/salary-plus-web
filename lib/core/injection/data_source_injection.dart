@@ -1,8 +1,8 @@
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/data/datasource/local/local_storage_datasource.dart';
-import 'package:act_web/data/datasource/remote/api_datasource.dart';
-import 'package:act_web/data/datasource/remote/api_request_dio_factory.dart';
-import 'package:act_web/data/datasource/remote/api_request_header_handler.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/data/datasource/local/local_storage_datasource.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_datasource.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_request_dio_factory.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_request_header_handler.dart';
 import 'package:get_it/get_it.dart';
 
 class DataSourceInjection {

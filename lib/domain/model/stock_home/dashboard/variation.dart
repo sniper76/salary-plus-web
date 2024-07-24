@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:act_web/core/extension/string_extension.dart';
+import 'package:salary_plus_web/core/extension/string_extension.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'variation.freezed.dart';

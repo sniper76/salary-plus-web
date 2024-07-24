@@ -1,5 +1,5 @@
-import 'package:act_web/core/extension/datetime_extension.dart';
-import 'package:act_web/domain/enum/election_status.dart';
+import 'package:salary_plus_web/core/extension/datetime_extension.dart';
+import 'package:salary_plus_web/domain/enum/election_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'leader_election_detail.freezed.dart';

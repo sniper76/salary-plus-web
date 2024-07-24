@@ -1,5 +1,5 @@
-import 'package:act_web/domain/enum/web_verification_status.dart';
-import 'package:act_web/domain/model/user/user.dart';
+import 'package:salary_plus_web/domain/enum/web_verification_status.dart';
+import 'package:salary_plus_web/domain/model/user/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'succeeded_web_verification.freezed.dart';

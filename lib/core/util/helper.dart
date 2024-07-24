@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:act_web/core/exception/dio_timout_exception.dart';
+import 'package:salary_plus_web/core/exception/dio_timout_exception.dart';
 import 'package:dio/dio.dart';
 import 'package:multiple_result/multiple_result.dart';
 

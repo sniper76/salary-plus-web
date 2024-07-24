@@ -3,8 +3,8 @@
 import 'dart:convert';
 import 'dart:html' as html;
 
-import 'package:act_web/core/exception/cache_exception.dart';
-import 'package:act_web/domain/model/ranking/ranking_stock.dart';
+import 'package:salary_plus_web/core/exception/cache_exception.dart';
+import 'package:salary_plus_web/domain/model/ranking/ranking_stock.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageDataSource {

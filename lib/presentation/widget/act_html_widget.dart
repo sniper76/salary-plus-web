@@ -1,5 +1,5 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/presentation/widget/link_previewer.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/presentation/widget/link_previewer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';

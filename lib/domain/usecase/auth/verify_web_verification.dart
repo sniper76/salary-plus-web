@@ -1,5 +1,5 @@
-import 'package:act_web/domain/model/user/succeeded_web_verification.dart';
-import 'package:act_web/domain/repository/auth_repository.dart';
+import 'package:salary_plus_web/domain/model/user/succeeded_web_verification.dart';
+import 'package:salary_plus_web/domain/repository/auth_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class VerifyWebVerification {

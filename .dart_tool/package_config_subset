@@ -199,9 +199,9 @@ flutter_bloc
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_bloc-8.1.6/
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_bloc-8.1.6/lib/
 flutter_cache_manager
-2.17
-file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.2/
-file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.2/lib/
+3.0
+file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.3/
+file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_cache_manager-3.3.3/lib/
 flutter_linkify
 2.17
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/flutter_linkify-6.0.0/
@@ -655,9 +655,9 @@ url_launcher_web
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.1/
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.1/lib/
 url_launcher_windows
-3.0
-file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/
-file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/lib/
+3.2
+file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.2/
+file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.2/lib/
 url_strategy
 2.12
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/url_strategy-0.2.0/
@@ -762,7 +762,7 @@ yaml
 2.19
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/yaml-3.1.2/
 file:///Users/sniper76/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib/
-act_web
+salary_plus_web
 3.4
 file:///Users/sniper76/StudioProjects/salary-plus-web/
 file:///Users/sniper76/StudioProjects/salary-plus-web/lib/

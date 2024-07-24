@@ -1,5 +1,5 @@
-import 'package:act_web/domain/model/file/upload_image_file.dart';
-import 'package:act_web/domain/repository/web_repository.dart';
+import 'package:salary_plus_web/domain/model/file/upload_image_file.dart';
+import 'package:salary_plus_web/domain/repository/web_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class UploadImage {

@@ -1,5 +1,5 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/route/app_router.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/route/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

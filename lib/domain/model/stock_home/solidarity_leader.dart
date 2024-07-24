@@ -1,4 +1,4 @@
-import 'package:act_web/domain/enum/leader_status_type.dart';
+import 'package:salary_plus_web/domain/enum/leader_status_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'solidarity_leader.freezed.dart';

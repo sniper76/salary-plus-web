@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/stock_home/dashboard/variation.dart';
+import 'package:salary_plus_web/domain/model/stock_home/dashboard/variation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'dashboard_item.freezed.dart';

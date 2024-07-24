@@ -1,9 +1,9 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/domain/enum/board_group_type.dart';
-import 'package:act_web/domain/model/post/post.dart';
-import 'package:act_web/presentation/widget/act_list_title_widget.dart';
-import 'package:act_web/presentation/widget/simple_post_list_item_widget.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/domain/enum/board_group_type.dart';
+import 'package:salary_plus_web/domain/model/post/post.dart';
+import 'package:salary_plus_web/presentation/widget/act_list_title_widget.dart';
+import 'package:salary_plus_web/presentation/widget/simple_post_list_item_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

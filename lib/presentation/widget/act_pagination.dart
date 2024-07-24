@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:act_web/data/response/paging.dart';
+import 'package:salary_plus_web/data/response/paging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';

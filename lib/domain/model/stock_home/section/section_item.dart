@@ -1,5 +1,5 @@
-import 'package:act_web/domain/model/post/board_group_category.dart';
-import 'package:act_web/domain/model/user/user_profile.dart';
+import 'package:salary_plus_web/domain/model/post/board_group_category.dart';
+import 'package:salary_plus_web/domain/model/user/user_profile.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'section_item.freezed.dart';

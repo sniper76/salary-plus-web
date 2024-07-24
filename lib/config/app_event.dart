@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/post/post.dart';
+import 'package:salary_plus_web/domain/model/post/post.dart';
 import 'package:event_bus_plus/event_bus_plus.dart';
 
 class PostCountChangeEvent extends AppEvent {

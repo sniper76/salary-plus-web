@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/stock/base_stock.dart';
+import 'package:salary_plus_web/domain/model/stock/base_stock.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 abstract class CommonRepository {

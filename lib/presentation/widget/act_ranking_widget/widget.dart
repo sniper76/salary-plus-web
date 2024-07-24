@@ -1,8 +1,8 @@
-import 'package:act_web/config/theme.dart';
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/domain/enum/ranking_sort_type.dart';
-import 'package:act_web/domain/model/ranking/ranking_stock.dart';
-import 'package:act_web/presentation/widget/act_ranking_widget/bloc/bloc.dart';
+import 'package:salary_plus_web/config/theme.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/domain/enum/ranking_sort_type.dart';
+import 'package:salary_plus_web/domain/model/ranking/ranking_stock.dart';
+import 'package:salary_plus_web/presentation/widget/act_ranking_widget/bloc/bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

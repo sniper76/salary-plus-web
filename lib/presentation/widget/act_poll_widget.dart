@@ -1,8 +1,8 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/extension/number_extension.dart';
-import 'package:act_web/domain/enum/poll_view_type.dart';
-import 'package:act_web/domain/model/document/poll_item.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/extension/number_extension.dart';
+import 'package:salary_plus_web/domain/enum/poll_view_type.dart';
+import 'package:salary_plus_web/domain/model/document/poll_item.dart';
 import 'package:flutter/material.dart';
 
 class ActPollWidget extends StatefulWidget {

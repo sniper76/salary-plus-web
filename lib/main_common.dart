@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:act_web/act_web.dart';
-import 'package:act_web/core/injection.dart';
+import 'package:salary_plus_web/act_web.dart';
+import 'package:salary_plus_web/core/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';

@@ -1,9 +1,9 @@
-import 'package:act_web/domain/model/stock/stock.dart';
-import 'package:act_web/domain/model/stock_home/dashboard/dashboard.dart';
-import 'package:act_web/domain/model/stock_home/leader_election_detail.dart';
-import 'package:act_web/domain/model/stock_home/section/section.dart';
-import 'package:act_web/domain/model/stock_home/solidarity_leader.dart';
-import 'package:act_web/domain/model/stock_home/stock_home_notice.dart';
+import 'package:salary_plus_web/domain/model/stock/stock.dart';
+import 'package:salary_plus_web/domain/model/stock_home/dashboard/dashboard.dart';
+import 'package:salary_plus_web/domain/model/stock_home/leader_election_detail.dart';
+import 'package:salary_plus_web/domain/model/stock_home/section/section.dart';
+import 'package:salary_plus_web/domain/model/stock_home/solidarity_leader.dart';
+import 'package:salary_plus_web/domain/model/stock_home/stock_home_notice.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'stock_home.freezed.dart';

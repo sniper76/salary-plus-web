@@ -1,15 +1,17 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/route/app_router.dart';
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/domain/usecase/auth/fetch_user_me.dart';
-import 'package:act_web/presentation/widget/act_login_dialog/widget.dart';
-import 'package:act_web/presentation/widget/act_logo.dart';
-import 'package:act_web/presentation/widget/act_web_app_bar.dart';
+import 'package:salary_plus_web/act_web.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/route/app_router.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/domain/usecase/auth/fetch_user_me.dart';
+import 'package:salary_plus_web/presentation/widget/act_login_dialog/widget.dart';
+import 'package:salary_plus_web/presentation/widget/act_logo.dart';
+import 'package:salary_plus_web/presentation/widget/act_web_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DefaultActWebAppBar extends StatefulWidget implements PreferredSizeWidget {
   const DefaultActWebAppBar({super.key});
@@ -91,6 +93,23 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
             ),
             actions: [
               ElevatedButton(
+                onPressed: () {
+                  Locale newLocale;
+                  if (Localizations.localeOf(context).languageCode == 'en') {
+                    newLocale = const Locale('ko', '');
+                  } else {
+                    newLocale = const Locale('en', '');
+                  }
+                  ActWeb.setLocale(context, newLocale);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: context.colorScheme.primary,
+                  fixedSize: const Size(180.0, 45.0),
+                ),
+                child: Text(AppLocalizations.of(context)!.change_language),
+              ),
+              const SizedBox(width: 40.0),
+              ElevatedButton(
                 onPressed: () async {
                   if (AutoRouter.of(context).current.name == PostSaveRoute.name) {
                     return;
@@ -100,9 +119,9 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.colorScheme.primary,
-                  fixedSize: const Size(100.0, 45.0),
+                  fixedSize: const Size(120.0, 45.0),
                 ),
-                child: const Text('글쓰기'),
+                child: Text(AppLocalizations.of(context)!.write_post),
               ),
               const SizedBox(width: 40.0),
               authService.isAuthenticated() == false
@@ -114,7 +133,7 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
                         backgroundColor: Colors.green,
                         fixedSize: const Size(100.0, 45.0),
                       ),
-                      child: const Text('로그인'),
+                      child: Text(AppLocalizations.of(context)!.login),
                     )
                   : ElevatedButton(
                       onPressed: () async {
@@ -128,7 +147,7 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
                         backgroundColor: Colors.red,
                         fixedSize: const Size(100.0, 45.0),
                       ),
-                      child: const Text('로그아웃'),
+                      child: Text(AppLocalizations.of(context)!.logout),
                     ),
               const SizedBox(width: 20.0),
             ],

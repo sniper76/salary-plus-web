@@ -1,11 +1,17 @@
-import 'package:act_web/config/theme.dart';
-import 'package:act_web/core/route/app_router.dart';
+import 'package:salary_plus_web/config/theme.dart';
+import 'package:salary_plus_web/core/route/app_router.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActWeb extends StatefulWidget {
   const ActWeb({super.key});
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _ActWebState state = context.findAncestorStateOfType<_ActWebState>()!;
+    state.setLocale(newLocale);
+  }
 
   @override
   State<ActWeb> createState() => _ActWebState();
@@ -14,6 +20,13 @@ class ActWeb extends StatefulWidget {
 class _ActWebState extends State<ActWeb> {
   final AppRouter appRouter = AppRouter();
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  Locale? _locale;
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   void initState() {
@@ -36,13 +49,29 @@ class _ActWebState extends State<ActWeb> {
           FirebaseAnalyticsObserver(analytics: analytics),
         ],
       ),
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale == null) {
+          return supportedLocales.first;
+        }
+
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       localizationsDelegates: const [
+        AppLocalizations.delegate, // Add this line
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('ko', 'KR')],
-      locale: const Locale('ko', 'KR'),
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('ko', ''),
+      ],
+      locale: _locale,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.light,

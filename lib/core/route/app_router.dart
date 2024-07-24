@@ -1,14 +1,14 @@
-import 'package:act_web/core/route/auth_guard.dart';
-import 'package:act_web/domain/enum/board_group_type.dart';
-import 'package:act_web/domain/model/post/board_group_category.dart';
-import 'package:act_web/domain/model/post/post.dart';
-import 'package:act_web/presentation/screen/home/screen.dart';
-import 'package:act_web/presentation/screen/post/detail/screen.dart';
-import 'package:act_web/presentation/screen/post/save/screen.dart';
-import 'package:act_web/presentation/screen/stock/screen.dart';
-import 'package:act_web/presentation/screen/stock_detail/home/screen.dart';
-import 'package:act_web/presentation/screen/stock_detail/post_list/screen.dart';
-import 'package:act_web/presentation/screen/stock_detail/screen.dart';
+import 'package:salary_plus_web/core/route/auth_guard.dart';
+import 'package:salary_plus_web/domain/enum/board_group_type.dart';
+import 'package:salary_plus_web/domain/model/post/board_group_category.dart';
+import 'package:salary_plus_web/domain/model/post/post.dart';
+import 'package:salary_plus_web/presentation/screen/home/screen.dart';
+import 'package:salary_plus_web/presentation/screen/post/detail/screen.dart';
+import 'package:salary_plus_web/presentation/screen/post/save/screen.dart';
+import 'package:salary_plus_web/presentation/screen/stock/screen.dart';
+import 'package:salary_plus_web/presentation/screen/stock_detail/home/screen.dart';
+import 'package:salary_plus_web/presentation/screen/stock_detail/post_list/screen.dart';
+import 'package:salary_plus_web/presentation/screen/stock_detail/screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

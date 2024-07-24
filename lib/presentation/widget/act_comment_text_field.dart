@@ -1,8 +1,8 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/presentation/widget/act_login_dialog/widget.dart';
-import 'package:act_web/presentation/widget/act_text_form_field.dart';
-import 'package:act_web/presentation/widget/custom_check_box.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/presentation/widget/act_login_dialog/widget.dart';
+import 'package:salary_plus_web/presentation/widget/act_text_form_field.dart';
+import 'package:salary_plus_web/presentation/widget/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 

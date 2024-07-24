@@ -1,6 +1,6 @@
-import 'package:act_web/domain/model/user/succeeded_web_verification.dart';
-import 'package:act_web/domain/model/user/user.dart';
-import 'package:act_web/domain/model/user/web_verification.dart';
+import 'package:salary_plus_web/domain/model/user/succeeded_web_verification.dart';
+import 'package:salary_plus_web/domain/model/user/user.dart';
+import 'package:salary_plus_web/domain/model/user/web_verification.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 abstract class AuthRepository {

@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:act_web/core/extension/exception_extension.dart';
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/core/util/dynamic_link_utils.dart';
-import 'package:act_web/domain/enum/web_verification_status.dart';
-import 'package:act_web/domain/model/user/succeeded_web_verification.dart';
-import 'package:act_web/domain/model/user/token.dart';
-import 'package:act_web/domain/model/user/web_verification.dart';
-import 'package:act_web/domain/usecase/auth/create_web_verification.dart';
-import 'package:act_web/domain/usecase/auth/verify_web_verification.dart';
-import 'package:act_web/presentation/base/base_state_mixin.dart';
+import 'package:salary_plus_web/core/extension/exception_extension.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/core/util/dynamic_link_utils.dart';
+import 'package:salary_plus_web/domain/enum/web_verification_status.dart';
+import 'package:salary_plus_web/domain/model/user/succeeded_web_verification.dart';
+import 'package:salary_plus_web/domain/model/user/token.dart';
+import 'package:salary_plus_web/domain/model/user/web_verification.dart';
+import 'package:salary_plus_web/domain/usecase/auth/create_web_verification.dart';
+import 'package:salary_plus_web/domain/usecase/auth/verify_web_verification.dart';
+import 'package:salary_plus_web/presentation/base/base_state_mixin.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

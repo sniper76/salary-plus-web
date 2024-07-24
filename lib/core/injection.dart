@@ -1,7 +1,7 @@
-import 'package:act_web/core/injection/data_source_injection.dart';
-import 'package:act_web/core/injection/repository_injection.dart';
-import 'package:act_web/core/injection/service_injection.dart';
-import 'package:act_web/core/injection/use_case_injection.dart';
+import 'package:salary_plus_web/core/injection/data_source_injection.dart';
+import 'package:salary_plus_web/core/injection/repository_injection.dart';
+import 'package:salary_plus_web/core/injection/service_injection.dart';
+import 'package:salary_plus_web/core/injection/use_case_injection.dart';
 import 'package:dio/dio.dart';
 import 'package:event_bus_plus/res/event_bus.dart';
 import 'package:get_it/get_it.dart';

@@ -1,5 +1,5 @@
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

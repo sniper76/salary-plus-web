@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/file/upload_image_file.dart';
+import 'package:salary_plus_web/domain/model/file/upload_image_file.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 abstract class WebRepository {

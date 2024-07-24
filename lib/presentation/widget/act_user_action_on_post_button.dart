@@ -1,5 +1,5 @@
-import 'package:act_web/core/extension/context_extension.dart';
-import 'package:act_web/domain/enum/user_action_on_post.dart';
+import 'package:salary_plus_web/core/extension/context_extension.dart';
+import 'package:salary_plus_web/domain/enum/user_action_on_post.dart';
 import 'package:flutter/material.dart';
 
 class ActUserActionOnPostButton extends StatefulWidget {

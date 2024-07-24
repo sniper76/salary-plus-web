@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/stock/leading_stock.dart';
+import 'package:salary_plus_web/domain/model/stock/leading_stock.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_profile.freezed.dart';

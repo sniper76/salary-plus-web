@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:act_web/config/constants.dart';
-import 'package:act_web/core/service/user_auth_service.dart';
-import 'package:act_web/data/datasource/remote/api_request_header_handler.dart';
+import 'package:salary_plus_web/config/constants.dart';
+import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:salary_plus_web/data/datasource/remote/api_request_header_handler.dart';
 import 'package:dio/dio.dart';
 
 class ApiRequestDioFactory {

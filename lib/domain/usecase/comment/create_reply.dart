@@ -1,6 +1,6 @@
-import 'package:act_web/domain/enum/board_group_type.dart';
-import 'package:act_web/domain/model/post/comment.dart';
-import 'package:act_web/domain/repository/comment_repository.dart';
+import 'package:salary_plus_web/domain/enum/board_group_type.dart';
+import 'package:salary_plus_web/domain/model/post/comment.dart';
+import 'package:salary_plus_web/domain/repository/comment_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class CreateReply {

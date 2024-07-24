@@ -1,4 +1,4 @@
-import 'package:act_web/domain/model/post/write_count.dart';
+import 'package:salary_plus_web/domain/model/post/write_count.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'anonymous_write_count.freezed.dart';

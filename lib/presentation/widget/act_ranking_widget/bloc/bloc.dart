@@ -1,9 +1,9 @@
-import 'package:act_web/core/extension/exception_extension.dart';
-import 'package:act_web/data/response/data_response.dart';
-import 'package:act_web/domain/enum/ranking_sort_type.dart';
-import 'package:act_web/domain/model/ranking/ranking_stock.dart';
-import 'package:act_web/domain/usecase/ranking/get_ranking_stock_list.dart';
-import 'package:act_web/presentation/base/base_state_mixin.dart';
+import 'package:salary_plus_web/core/extension/exception_extension.dart';
+import 'package:salary_plus_web/data/response/data_response.dart';
+import 'package:salary_plus_web/domain/enum/ranking_sort_type.dart';
+import 'package:salary_plus_web/domain/model/ranking/ranking_stock.dart';
+import 'package:salary_plus_web/domain/usecase/ranking/get_ranking_stock_list.dart';
+import 'package:salary_plus_web/presentation/base/base_state_mixin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';

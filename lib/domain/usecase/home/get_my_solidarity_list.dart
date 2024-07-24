@@ -1,6 +1,6 @@
-import 'package:act_web/data/response/data_response.dart';
-import 'package:act_web/domain/model/stock/solidarity.dart';
-import 'package:act_web/domain/repository/home_repository.dart';
+import 'package:salary_plus_web/data/response/data_response.dart';
+import 'package:salary_plus_web/domain/model/stock/solidarity.dart';
+import 'package:salary_plus_web/domain/repository/home_repository.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 class GetMySolidarityList {

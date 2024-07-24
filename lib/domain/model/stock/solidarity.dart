@@ -1,6 +1,6 @@
-import 'package:act_web/domain/enum/solidarity_status_type.dart';
+import 'package:salary_plus_web/domain/enum/solidarity_status_type.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:act_web/domain/model/stock/link.dart';
+import 'package:salary_plus_web/domain/model/stock/link.dart';
 
 part 'solidarity.freezed.dart';
 part 'solidarity.g.dart';
