@@ -7,6 +7,7 @@ import 'package:salary_plus_web/domain/repository/post_repository.dart';
 import 'package:salary_plus_web/domain/repository/ranking_repository.dart';
 import 'package:salary_plus_web/domain/repository/stock_repository.dart';
 import 'package:salary_plus_web/domain/repository/web_repository.dart';
+import 'package:salary_plus_web/domain/usecase/auth/login.dart';
 import 'package:salary_plus_web/domain/usecase/comment/create_comment.dart';
 import 'package:salary_plus_web/domain/usecase/comment/create_reply.dart';
 import 'package:salary_plus_web/domain/usecase/comment/delete_comment.dart';
@@ -50,6 +51,8 @@ class UseCaseInjection {
     GetIt.I.registerSingleton<PostStockSearchTrends>(PostStockSearchTrends(repository: GetIt.I<CommonRepository>()));
 
     // auth
+    GetIt.I.registerSingleton<Login>(Login(repository: GetIt.I<AuthRepository>()));
+
     GetIt.I.registerSingleton<CreateWebVerification>(CreateWebVerification(repository: GetIt.I<AuthRepository>()));
     GetIt.I.registerSingleton<VerifyWebVerification>(VerifyWebVerification(repository: GetIt.I<AuthRepository>()));
     GetIt.I.registerSingleton<FetchUserMe>(

@@ -3,6 +3,7 @@ import 'package:salary_plus_web/domain/enum/board_group_type.dart';
 import 'package:salary_plus_web/domain/model/post/board_group_category.dart';
 import 'package:salary_plus_web/domain/model/post/post.dart';
 import 'package:salary_plus_web/presentation/screen/home/screen.dart';
+import 'package:salary_plus_web/presentation/screen/login/screen.dart';
 import 'package:salary_plus_web/presentation/screen/post/detail/screen.dart';
 import 'package:salary_plus_web/presentation/screen/post/save/screen.dart';
 import 'package:salary_plus_web/presentation/screen/stock/screen.dart';
@@ -22,6 +23,12 @@ class AppRouter extends _$AppRouter {
           initial: true,
           path: '/',
           page: HomeRoute.page,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+        ),
+
+        CustomRoute(
+          path: '/login',
+          page: LoginRoute.page,
           transitionsBuilder: TransitionsBuilders.noTransition,
         ),
 

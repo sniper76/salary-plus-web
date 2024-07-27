@@ -4,10 +4,11 @@ import 'package:salary_plus_web/core/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:salary_plus_web/salary_plus_web.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void mainCommon() async {
-  final log = Logger('ActWeb');
+  final log = Logger('SalaryPlusWeb');
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
@@ -19,7 +20,7 @@ void mainCommon() async {
 
     setPathUrlStrategy();
 
-    runApp(const ActWeb());
+    runApp(const SalaryPlusWeb());
   }, (error, stackTrace) {
     log.shout("Error in main", error, stackTrace);
   });

@@ -19,6 +19,34 @@ class _ApiDataSource implements ApiDataSource {
   String? baseUrl;
 
   @override
+  Future<VerifyAuth> loginAdmin(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<VerifyAuth>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/auth/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final _value = VerifyAuth.fromJson(_result.data!);
+    return _value;
+  }
+
+  @override
   Future<DataResponse<List<BaseStock>>> getCommonStocks() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

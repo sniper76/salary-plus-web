@@ -25,6 +25,7 @@ class User {
   final String? profileImageUrl;
   final DateTime? lastPinNumberVerifiedAt;
   final bool isPinNumberRegistered;
+  final bool? isChangePasswordRequired;
   @JsonKey(unknownEnumValue: UserStatusType.unknown)
   final UserStatusType status;
   final List<String>? leadingSolidarityStockCodes;
@@ -56,6 +57,7 @@ class User {
     this.roles,
     this.leadingSolidarityStockCodes,
     this.isPinNumberRegistered = false,
+    this.isChangePasswordRequired = true,
     this.status = UserStatusType.unknown,
     this.createdAt,
     this.updatedAt,
@@ -104,6 +106,7 @@ extension UserExtension on User {
       profileImageUrl: profileImageUrl,
       lastPinNumberVerifiedAt: lastPinNumberVerifiedAt,
       isPinNumberRegistered: isPinNumberRegistered,
+      isChangePasswordRequired: isChangePasswordRequired,
       status: status,
       roles: roles,
       leadingSolidarityStockCodes: leadingSolidarityStockCodes,

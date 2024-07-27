@@ -1,4 +1,4 @@
-import 'package:salary_plus_web/act_web.dart';
+import 'package:salary_plus_web/salary_plus_web.dart';
 import 'package:salary_plus_web/config/constants.dart';
 import 'package:salary_plus_web/core/extension/context_extension.dart';
 import 'package:salary_plus_web/core/route/app_router.dart';
@@ -89,6 +89,19 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
                     style: context.textTheme.bodyLarge,
                   ),
                 ),
+                InkWell(
+                  onTap: () async {
+                    if (AutoRouter.of(context).current.name == LoginRoute.name) {
+                      return;
+                    } else {
+                      context.router.push(const LoginRoute());
+                    }
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.login,
+                    style: context.textTheme.bodyLarge,
+                  ),
+                ),
               ],
             ),
             actions: [
@@ -100,7 +113,7 @@ class _DefaultActWebAppBarState extends State<DefaultActWebAppBar> {
                   } else {
                     newLocale = const Locale('en', '');
                   }
-                  ActWeb.setLocale(context, newLocale);
+                  SalaryPlusWeb.setLocale(context, newLocale);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.colorScheme.primary,

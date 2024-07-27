@@ -4,6 +4,10 @@
   "write_post": "글쓰기",
   "login": "로그인",
   "logout": "로그아웃",
+  "form_id": "아이디",
+  "form_id_hintText": "아이디를 입력하세요",
+  "form_pwd": "비밀번호",
+  "form_pwd_hintText": "비밀번호를 입력하세요",
   "stock": "종목",
   "info_service": "서비스소개"
 }

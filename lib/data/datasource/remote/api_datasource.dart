@@ -17,6 +17,7 @@ import 'package:salary_plus_web/data/datasource/remote/api_request_dio_factory.d
 import 'package:salary_plus_web/data/response/data_response.dart';
 import 'package:salary_plus_web/domain/model/document/digital_proxy_url.dart';
 import 'package:salary_plus_web/domain/model/post/post.dart';
+import 'package:salary_plus_web/domain/model/verify_auth.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
 
@@ -27,6 +28,9 @@ abstract class ApiDataSource {
   factory ApiDataSource(ApiRequestDioFactory apiRequestDioFactory, Dio dio) {
     return _ApiDataSource(dio);
   }
+
+  @POST("/admin/auth/login")
+  Future<VerifyAuth> loginAdmin(@Body() Map<String, dynamic> data);
 
   //commonStocks
   @GET('/commons/stocks')
