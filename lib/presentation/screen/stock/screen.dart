@@ -41,7 +41,7 @@ class _StockScreenState extends State<StockScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return BaseBlocLayout<StockBloc, StockState>(
-      appBarbuilder: (context, bloc, state) {
+      appBarBuilder: (context, bloc, state) {
         return DefaultActWebAppBar();
       },
       backgroundColor: Colors.white,

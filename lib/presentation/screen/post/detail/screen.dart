@@ -90,7 +90,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return BaseBlocLayout<PostDetailBloc, PostDetailState>(
-      appBarbuilder: (context, bloc, state) {
+      appBarBuilder: (context, bloc, state) {
         return DefaultActWebAppBar();
       },
       backgroundColor: Colors.white,

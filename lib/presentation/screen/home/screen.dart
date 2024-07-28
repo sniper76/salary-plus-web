@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return BaseBlocLayout<HomeBloc, HomeState>(
-      appBarbuilder: (context, bloc, state) {
+      appBarBuilder: (context, bloc, state) {
         return DefaultActWebAppBar();
       },
       backgroundColor: Colors.white,

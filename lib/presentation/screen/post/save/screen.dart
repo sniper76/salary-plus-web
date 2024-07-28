@@ -93,7 +93,7 @@ class _PostSaveScreenState extends State<PostSaveScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseBlocLayout<PostSaveBloc, PostSaveState>(
-      appBarbuilder: (context, bloc, state) {
+      appBarBuilder: (context, bloc, state) {
         return DefaultActWebAppBar();
       },
       backgroundColor: Colors.white,

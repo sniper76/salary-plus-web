@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BaseBlocLayout<T extends BlocBase<S>, S extends BaseStateMixin> extends StatefulWidget {
   final T Function(BuildContext context) create;
-  final PreferredSizeWidget Function(BuildContext, T, S)? appBarbuilder;
+  final PreferredSizeWidget Function(BuildContext, T, S)? appBarBuilder;
   final Widget Function(BuildContext, T, S) builder;
   final Function(BuildContext, S)? listener;
   final Widget? endDrawer;
@@ -20,7 +20,7 @@ class BaseBlocLayout<T extends BlocBase<S>, S extends BaseStateMixin> extends St
   const BaseBlocLayout({
     super.key,
     required this.create,
-    this.appBarbuilder,
+    this.appBarBuilder,
     required this.builder,
     this.listener,
     this.endDrawer,
@@ -112,7 +112,7 @@ class BaseBlocLayoutState<T extends BlocBase<S>, S extends BaseStateMixin> exten
           toolbarHeight: 82.0,
           pinned: true,
           titleSpacing: 0,
-          title: widget.appBarbuilder?.call(context, bloc, state),
+          title: widget.appBarBuilder?.call(context, bloc, state),
         ),
         SliverToBoxAdapter(
           child: Container(

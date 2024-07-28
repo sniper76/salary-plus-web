@@ -57,7 +57,7 @@ class _StockHomeScreenState extends State<StockHomeScreen> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return BaseBlocLayout<StockHomeBloc, StockHomeState>(
-      appBarbuilder: (context, bloc, state) {
+      appBarBuilder: (context, bloc, state) {
         return DefaultActWebAppBar();
       },
       create: (context) => GetIt.I<StockHomeBloc>(instanceName: widget.stockCode)..add(const StockHomeEvent.init()),
