@@ -43,11 +43,10 @@ class ActTopMenuBar extends StatefulWidget {
 }
 
 class _ActTopMenuBarState extends State<ActTopMenuBar> {
-  final Map _selectedToggleMenuList = Map();
+  final Map<String, bool> _selectedToggleMenuList = {};
   bool _isStockSubItemsVisible = false;
 
   _launchAppDownload() async {
-    // ignore: deprecated_member_use
     await launch(AppConfig.downloadUrl);
   }
 
@@ -74,21 +73,27 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.primaryColor[600],
-      // width: MediaQuery.sizeOf(context).height,
-      height: 100,
-      child: Row(
-        children: [
-          Logo(onTap: _launchAppDownload),
-          ..._buildMenuItems(routes: widget.routes),
-          const Spacer(),
-          if (widget.user != null)
-            UserProfile(
-              user: widget.user!,
-              onLogout: widget.onLogout,
-              onSetLocale: widget.onSetLocale,
+      height: 100, // 고정된 높이
+      child: SingleChildScrollView( // 스크롤 가능하도록 수정
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Logo(onTap: _launchAppDownload),
+                ..._buildMenuItems(routes: widget.routes),
+                const Spacer(),
+                if (widget.user != null)
+                  UserProfile(
+                    user: widget.user!,
+                    onLogout: widget.onLogout,
+                    onSetLocale: widget.onSetLocale,
+                  ),
+                const SizedBox(width: 25),
+              ],
             ),
-          const SizedBox(width: 25), // 오른쪽 패딩을 위해 추가
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -98,54 +103,58 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
     for (final route in routes) {
       bool isOpen = _selectedToggleMenuList.containsKey(route.title);
       final subItems = route.subItems ?? [];
-      menuItems.addAll([
-        _buildItem(
-          title: route.title,
-          icon: route.icon ?? CustomMenuIcons.subline,
-          path: route.path,
-          gap: gap,
-          onTap: () {
-            if (route.path != null) {
-              setState(() {
-                context.router.replaceAll([route.route!]);
-              });
-            } else {
-              _handleSubItemMenu(route.title);
-            }
-          },
-          trailing: subItems.isNotEmpty ? _buildArrowIcon(isActive: isOpen) : null,
+      menuItems.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildItem(
+              title: route.title,
+              icon: route.icon ?? CustomMenuIcons.subline,
+              path: route.path,
+              gap: gap,
+              onTap: () {
+                if (route.path != null) {
+                  setState(() {
+                    context.router.replaceAll([route.route!]);
+                  });
+                } else {
+                  _handleSubItemMenu(route.title);
+                }
+              },
+              trailing: subItems.isNotEmpty ? _buildArrowIcon(isActive: isOpen) : null,
+            ),
+            if (subItems.isNotEmpty && isOpen)
+              Padding(
+                padding: const EdgeInsets.only(left: 20), // 상위 메뉴와 구분되는 약간의 패딩 추가
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _buildSubMenuItems(routes: subItems, gap: gap + 20),
+                ),
+              ),
+          ],
         ),
-      ]);
-      if (subItems.isNotEmpty) {
-        if (isOpen) {
-          final subItemWidget = _buildSubMenuItems(routes: subItems, gap: gap + 20);
-          menuItems.addAll(subItemWidget);
-        }
-      }
+      );
     }
     return menuItems;
   }
+
   List<Widget> _buildSubMenuItems({required List<TopMenuRoute> routes, double gap = 50}) {
-    List<Widget> menuItems = [];
-    for (final route in routes) {
-      menuItems.addAll([
-        _buildSubItem(
-          title: route.title,
-          icon: route.icon ?? CustomMenuIcons.subline,
-          path: route.path,
-          gap: gap,
-          onTap: () {
-            if (route.path != null) {
-              setState(() {
-                context.router.replaceAll([route.route!]);
-              });
-            }
-          },
-          trailing: null,
-        ),
-      ]);
-    }
-    return menuItems;
+    return routes.map((route) {
+      return _buildSubItem(
+        title: route.title,
+        icon: route.icon ?? CustomMenuIcons.subline,
+        path: route.path,
+        gap: gap,
+        onTap: () {
+          if (route.path != null) {
+            setState(() {
+              context.router.replaceAll([route.route!]);
+            });
+          }
+        },
+        trailing: null,
+      );
+    }).toList();
   }
 
   Widget _buildBaseBuilder({
@@ -162,21 +171,27 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
             isHovered = value;
           });
         },
-        child: Container(height: 50, color: isHovered ? const Color(0xff3A5ACA) : null, child: child),
+        child: Container(
+          height: 50,
+          color: isHovered ? const Color(0xff3A5ACA) : null,
+          child: child,
+        ),
       );
     });
   }
 
-  Widget _buildItem(
-      {required String title,
-      required IconData icon,
-      void Function()? onTap,
-      String? path,
-      required double gap,
-      Widget? trailing}) {
+  Widget _buildItem({
+    required String title,
+    required IconData icon,
+    void Function()? onTap,
+    String? path,
+    required double gap,
+    Widget? trailing,
+  }) {
     return _buildBaseBuilder(
-        onTap: onTap,
-        child: Stack(children: [
+      onTap: onTap,
+      child: Stack(
+        children: [
           Row(
             children: [
               SizedBox(width: gap),
@@ -186,28 +201,30 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
             ],
           ),
           if (trailing != null) Positioned(right: 60, child: trailing),
-        ]));
+        ],
+      ),
+    );
   }
 
-  Widget _buildSubItem(
-      {required String title,
-      required IconData icon,
-      void Function()? onTap,
-      String? path,
-      required double gap,
-      Widget? trailing}) {
+  Widget _buildSubItem({
+    required String title,
+    required IconData icon,
+    void Function()? onTap,
+    String? path,
+    required double gap,
+    Widget? trailing,
+  }) {
     return _buildBaseBuilder(
-        onTap: onTap,
-        child: Column(children: [
-          Row(
-            children: [
-              SizedBox(width: gap),
-              _buildIcon(icon: icon, isActive: _checkCurrentActiveMenu(path)),
-              const SizedBox(width: 40),
-              _buildText(title: title, isActive: _checkCurrentActiveMenu(path)),
-            ],
-          ),
-        ]));
+      onTap: onTap,
+      child: Row(
+        children: [
+          SizedBox(width: gap),
+          _buildIcon(icon: icon, isActive: _checkCurrentActiveMenu(path)),
+          const SizedBox(width: 40),
+          _buildText(title: title, isActive: _checkCurrentActiveMenu(path)),
+        ],
+      ),
+    );
   }
 
   Widget _buildText({required String title, required bool isActive}) {
