@@ -134,10 +134,9 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
   }
 
   Widget _buildLogo() {
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: Image.asset('assets/images/img_cms_logo.png'),
+    return Text(
+      "Salary Plus",
+      style: TextStyle(color: Colors.white, fontSize: 18),
     );
   }
 

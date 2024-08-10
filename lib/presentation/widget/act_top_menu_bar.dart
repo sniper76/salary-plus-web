@@ -76,22 +76,19 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
       color: AppTheme.primaryColor[600],
       // width: MediaQuery.sizeOf(context).height,
       height: 100,
-      child: SingleChildScrollView(
-        child: Row(
-          children: [
-            Logo(onTap: _launchAppDownload),
-            ..._buildMenuItems(routes: widget.routes),
-            const SizedBox(
-              height: 25,
+      child: Row(
+        children: [
+          Logo(onTap: _launchAppDownload),
+          ..._buildMenuItems(routes: widget.routes),
+          const Spacer(),
+          if (widget.user != null)
+            UserProfile(
+              user: widget.user!,
+              onLogout: widget.onLogout,
+              onSetLocale: widget.onSetLocale,
             ),
-            if (widget.user != null)
-              UserProfile(
-                user: widget.user!,
-                onLogout: widget.onLogout,
-                onSetLocale: widget.onSetLocale,
-              ),
-          ],
-        ),
+          const SizedBox(width: 25), // 오른쪽 패딩을 위해 추가
+        ],
       ),
     );
   }
@@ -121,10 +118,32 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
       ]);
       if (subItems.isNotEmpty) {
         if (isOpen) {
-          final subItemWidget = _buildMenuItems(routes: subItems, gap: gap + 20);
+          final subItemWidget = _buildSubMenuItems(routes: subItems, gap: gap + 20);
           menuItems.addAll(subItemWidget);
         }
       }
+    }
+    return menuItems;
+  }
+  List<Widget> _buildSubMenuItems({required List<TopMenuRoute> routes, double gap = 50}) {
+    List<Widget> menuItems = [];
+    for (final route in routes) {
+      menuItems.addAll([
+        _buildSubItem(
+          title: route.title,
+          icon: route.icon ?? CustomMenuIcons.subline,
+          path: route.path,
+          gap: gap,
+          onTap: () {
+            if (route.path != null) {
+              setState(() {
+                context.router.replaceAll([route.route!]);
+              });
+            }
+          },
+          trailing: null,
+        ),
+      ]);
     }
     return menuItems;
   }
@@ -158,7 +177,7 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
     return _buildBaseBuilder(
         onTap: onTap,
         child: Stack(children: [
-          Column(
+          Row(
             children: [
               SizedBox(width: gap),
               _buildIcon(icon: icon, isActive: _checkCurrentActiveMenu(path)),
@@ -167,6 +186,27 @@ class _ActTopMenuBarState extends State<ActTopMenuBar> {
             ],
           ),
           if (trailing != null) Positioned(right: 60, child: trailing),
+        ]));
+  }
+
+  Widget _buildSubItem(
+      {required String title,
+      required IconData icon,
+      void Function()? onTap,
+      String? path,
+      required double gap,
+      Widget? trailing}) {
+    return _buildBaseBuilder(
+        onTap: onTap,
+        child: Column(children: [
+          Row(
+            children: [
+              SizedBox(width: gap),
+              _buildIcon(icon: icon, isActive: _checkCurrentActiveMenu(path)),
+              const SizedBox(width: 40),
+              _buildText(title: title, isActive: _checkCurrentActiveMenu(path)),
+            ],
+          ),
         ]));
   }
 

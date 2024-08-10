@@ -11,11 +11,10 @@ class Logo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: InkWell(
         onTap: onTap,
-        child: Image.asset(
-          'assets/logo.png',
-          width: 80,
-          height: 80,
-        ),
+        child: Text(
+            "Salary Plus",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+        )
       ),
     );
   }
