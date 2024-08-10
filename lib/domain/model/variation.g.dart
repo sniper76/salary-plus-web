@@ -1,0 +1,17 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'variation.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Variation _$VariationFromJson(Map<String, dynamic> json) => Variation(
+      text: json['text'] as String,
+      colorHex: json['color'] as String,
+    );
+
+Map<String, dynamic> _$VariationToJson(Variation instance) => <String, dynamic>{
+      'text': instance.text,
+      'color': instance.colorHex,
+    };

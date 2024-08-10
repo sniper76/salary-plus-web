@@ -1,0 +1,20 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'holding_stock.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+HoldingStock _$HoldingStockFromJson(Map<String, dynamic> json) => HoldingStock(
+      stockCode: json['stockCode'] as String,
+      displayOrder: (json['displayOrder'] as num).toInt(),
+      stock: Stock.fromJson(json['stock'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$HoldingStockToJson(HoldingStock instance) =>
+    <String, dynamic>{
+      'stockCode': instance.stockCode,
+      'displayOrder': instance.displayOrder,
+      'stock': instance.stock,
+    };

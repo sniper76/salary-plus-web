@@ -1,0 +1,36 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'digital_document_user.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DigitalDocumentUser _$DigitalDocumentUserFromJson(Map<String, dynamic> json) =>
+    DigitalDocumentUser(
+      name: json['name'] as String,
+      birthDate: DateTime.parse(json['birthDate'] as String),
+      gender: json['gender'] as String,
+      phoneNumber: json['phoneNumber'] as String,
+      issuedNumber: (json['issuedNumber'] as num).toInt(),
+      zipcode: json['zipcode'] as String?,
+      address: json['address'] as String?,
+      addressDetail: json['addressDetail'] as String?,
+      userId: (json['userId'] as num?)?.toInt(),
+      digitalDocumentId: (json['digitalDocumentId'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$DigitalDocumentUserToJson(
+        DigitalDocumentUser instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'birthDate': instance.birthDate.toIso8601String(),
+      'gender': instance.gender,
+      'phoneNumber': instance.phoneNumber,
+      'issuedNumber': instance.issuedNumber,
+      'zipcode': instance.zipcode,
+      'address': instance.address,
+      'addressDetail': instance.addressDetail,
+      'userId': instance.userId,
+      'digitalDocumentId': instance.digitalDocumentId,
+    };

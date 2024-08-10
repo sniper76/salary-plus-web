@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'upload_image_file.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+UploadImageFile _$UploadImageFileFromJson(Map<String, dynamic> json) =>
+    UploadImageFile(
+      id: (json['id'] as num).toInt(),
+      url: json['url'] as String,
+      originalFilename: json['originalFilename'] as String,
+      fileContentType: json['fileContentType'] as String?,
+      fileType: json['fileType'] as String?,
+      description: json['description'] as String?,
+    );
+
+Map<String, dynamic> _$UploadImageFileToJson(UploadImageFile instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'url': instance.url,
+      'originalFilename': instance.originalFilename,
+      'fileContentType': instance.fileContentType,
+      'fileType': instance.fileType,
+      'description': instance.description,
+    };

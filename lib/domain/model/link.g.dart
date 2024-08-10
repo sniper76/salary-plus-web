@@ -1,0 +1,19 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'link.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Link _$LinkFromJson(Map<String, dynamic> json) => Link(
+      title: json['title'] as String,
+      url: json['url'] as String,
+      color: json['color'] as String,
+    );
+
+Map<String, dynamic> _$LinkToJson(Link instance) => <String, dynamic>{
+      'title': instance.title,
+      'url': instance.url,
+      'color': instance.color,
+    };

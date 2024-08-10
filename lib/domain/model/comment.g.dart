@@ -1,0 +1,39 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'comment.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
+      id: (json['id'] as num).toInt(),
+      content: Comment._contentFromJson(json['content'] as String),
+      userId: (json['userId'] as num).toInt(),
+      userProfile: json['userProfile'] == null
+          ? null
+          : UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>),
+      deleted: json['deleted'] as bool? ?? false,
+      reported: json['reported'] as bool? ?? false,
+      liked: json['liked'] as bool? ?? false,
+      likeCount: (json['likeCount'] as num?)?.toInt() ?? 0,
+      replyCommentCount: (json['replyCommentCount'] as num?)?.toInt() ?? 0,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      editedAt: DateTime.parse(json['editedAt'] as String),
+      isTemporaryAdded: json['isTemporaryAdded'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'userId': instance.userId,
+      'userProfile': instance.userProfile,
+      'deleted': instance.deleted,
+      'reported': instance.reported,
+      'liked': instance.liked,
+      'likeCount': instance.likeCount,
+      'replyCommentCount': instance.replyCommentCount,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'editedAt': instance.editedAt.toIso8601String(),
+      'isTemporaryAdded': instance.isTemporaryAdded,
+    };

@@ -1,0 +1,18 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'campaign_post.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+CampaignPost _$CampaignPostFromJson(Map<String, dynamic> json) => CampaignPost(
+      postId: (json['postId'] as num).toInt(),
+      stock: SimpleStock.fromJson(json['stock'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CampaignPostToJson(CampaignPost instance) =>
+    <String, dynamic>{
+      'postId': instance.postId,
+      'stock': instance.stock,
+    };

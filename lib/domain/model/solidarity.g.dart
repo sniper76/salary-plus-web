@@ -1,0 +1,45 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'solidarity.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Solidarity _$SolidarityFromJson(Map<String, dynamic> json) => Solidarity(
+      name: json['name'] as String,
+      code: json['code'] as String,
+      id: (json['id'] as num).toInt(),
+      memberCount: (json['memberCount'] as num?)?.toInt() ?? 0,
+      requiredMemberCount: (json['requiredMemberCount'] as num?)?.toInt() ?? 0,
+      minThresholdMemberCount:
+          (json['minThresholdMemberCount'] as num?)?.toInt() ?? 50,
+      stake: (json['stake'] as num?)?.toDouble() ?? 0,
+      status: $enumDecodeNullable(_$SolidarityStatusTypeEnumMap, json['status'],
+              unknownValue: SolidarityStatusType.unknown) ??
+          SolidarityStatusType.unknown,
+      links: (json['links'] as List<dynamic>?)
+          ?.map((e) => Link.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      representativePhoneNumber: json['representativePhoneNumber'] as String?,
+    );
+
+Map<String, dynamic> _$SolidarityToJson(Solidarity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'code': instance.code,
+      'memberCount': instance.memberCount,
+      'requiredMemberCount': instance.requiredMemberCount,
+      'minThresholdMemberCount': instance.minThresholdMemberCount,
+      'stake': instance.stake,
+      'status': _$SolidarityStatusTypeEnumMap[instance.status]!,
+      'links': instance.links,
+      'representativePhoneNumber': instance.representativePhoneNumber,
+    };
+
+const _$SolidarityStatusTypeEnumMap = {
+  SolidarityStatusType.active: 'ACTIVE',
+  SolidarityStatusType.inactive_by_admin: 'INACTIVE_BY_ADMIN',
+  SolidarityStatusType.unknown: 'UNKNOWN',
+};

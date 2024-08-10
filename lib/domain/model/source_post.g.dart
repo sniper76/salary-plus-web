@@ -1,0 +1,105 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'source_post.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SourcePost _$SourcePostFromJson(Map<String, dynamic> json) => SourcePost(
+      userProfile: json['userProfile'] == null
+          ? null
+          : UserProfile.fromJson(json['userProfile'] as Map<String, dynamic>),
+      boardCategory: json['boardCategory'] == null
+          ? null
+          : BoardGroupCategory.fromJson(
+              json['boardCategory'] as Map<String, dynamic>),
+      boardGroup:
+          $enumDecodeNullable(_$BoardGroupTypeEnumMap, json['boardGroup']),
+      stock: json['stock'] == null
+          ? null
+          : Stock.fromJson(json['stock'] as Map<String, dynamic>),
+      digitalDocument: json['digitalDocument'] == null
+          ? null
+          : DigitalDocument.fromJson(
+              json['digitalDocument'] as Map<String, dynamic>),
+      digitalDocumentDownload: json['digitalDocumentDownload'] == null
+          ? null
+          : DigitalDocumentDownload.fromJson(
+              json['digitalDocumentDownload'] as Map<String, dynamic>),
+      polls: (json['polls'] as List<dynamic>?)
+          ?.map((e) => Poll.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as num).toInt(),
+      boardId: (json['boardId'] as num).toInt(),
+      title: json['title'] as String,
+      content: json['content'] as String,
+      status: $enumDecode(_$PostStatusTypeEnumMap, json['status']),
+      userId: (json['userId'] as num).toInt(),
+      likeCount: (json['likeCount'] as num).toInt(),
+      commentCount: (json['commentCount'] as num).toInt(),
+      viewCount: (json['viewCount'] as num).toInt(),
+      isActive: json['isActive'] as bool,
+      isNew: json['isNew'] as bool,
+      liked: json['liked'] as bool,
+      deleted: json['deleted'] as bool,
+      reported: json['reported'] as bool,
+      isAuthorAdmin: json['isAuthorAdmin'] as bool,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      editedAt: json['editedAt'] == null
+          ? null
+          : DateTime.parse(json['editedAt'] as String),
+    );
+
+Map<String, dynamic> _$SourcePostToJson(SourcePost instance) =>
+    <String, dynamic>{
+      'userProfile': instance.userProfile,
+      'boardCategory': instance.boardCategory,
+      'boardGroup': _$BoardGroupTypeEnumMap[instance.boardGroup],
+      'stock': instance.stock,
+      'digitalDocument': instance.digitalDocument,
+      'digitalDocumentDownload': instance.digitalDocumentDownload,
+      'polls': instance.polls,
+      'id': instance.id,
+      'boardId': instance.boardId,
+      'title': instance.title,
+      'content': instance.content,
+      'status': _$PostStatusTypeEnumMap[instance.status]!,
+      'userId': instance.userId,
+      'likeCount': instance.likeCount,
+      'commentCount': instance.commentCount,
+      'viewCount': instance.viewCount,
+      'isActive': instance.isActive,
+      'isNew': instance.isNew,
+      'liked': instance.liked,
+      'deleted': instance.deleted,
+      'reported': instance.reported,
+      'isAuthorAdmin': instance.isAuthorAdmin,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'editedAt': instance.editedAt?.toIso8601String(),
+    };
+
+const _$BoardGroupTypeEnumMap = {
+  BoardGroupType.analysis: 'ANALYSIS',
+  BoardGroupType.action: 'ACTION',
+  BoardGroupType.debate: 'DEBATE',
+  BoardGroupType.globalboard: 'GLOBALBOARD',
+  BoardGroupType.globalcommunity: 'GLOBALCOMMUNITY',
+  BoardGroupType.globalevent: 'GLOBALEVENT',
+  BoardGroupType.unknown: 'UNKNOWN',
+};
+
+const _$PostStatusTypeEnumMap = {
+  PostStatusType.active: 'ACTIVE',
+  PostStatusType.processing: 'PROCESSING',
+  PostStatusType.inactive_by_user: 'INACTIVE_BY_USER',
+  PostStatusType.inactive_by_admin: 'INACTIVE_BY_ADMIN',
+  PostStatusType.withdawal_by_request: 'WITHDRAWAL_REQUESTED',
+  PostStatusType.deleted_by_user: 'DELETED_BY_USER',
+  PostStatusType.deleted_by_admin: 'DELETED_BY_ADMIN',
+  PostStatusType.delete: 'DELETED',
+  PostStatusType.all: 'ALL',
+  PostStatusType.unknown: 'UNKNOWN',
+};

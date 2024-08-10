@@ -1,0 +1,74 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'campaign.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Campaign _$CampaignFromJson(Map<String, dynamic> json) => Campaign(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
+      sourceStockGroupId: (json['sourceStockGroupId'] as num).toInt(),
+      status: json['status'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      sourceStockGroupName: json['sourceStockGroupName'] as String,
+      deletedAt: json['deletedAt'] == null
+          ? null
+          : DateTime.parse(json['deletedAt'] as String),
+      isDigitalDocument: json['isDigitalDocument'] as bool? ?? false,
+      isPoll: json['isPoll'] as bool? ?? false,
+      joinStockCount: (json['joinStockCount'] as num?)?.toInt() ?? 0,
+      joinUserCount: (json['joinUserCount'] as num?)?.toInt() ?? 0,
+      mappedStocksCount: (json['mappedStocksCount'] as num?)?.toInt() ?? 0,
+      stockQuantity: (json['stockQuantity'] as num?)?.toInt() ?? 0,
+      sourcePostId: (json['sourcePostId'] as num?)?.toInt(),
+      targetEndDate: json['targetEndDate'] == null
+          ? null
+          : DateTime.parse(json['targetEndDate'] as String),
+      boardCategory: $enumDecodeNullable(
+              _$BoardCategoryTypeEnumMap, json['boardCategory']) ??
+          BoardCategoryType.all,
+      sourcePost: json['sourcePost'] == null
+          ? null
+          : SourcePost.fromJson(json['sourcePost'] as Map<String, dynamic>),
+      campaignPosts: (json['campaignPosts'] as List<dynamic>?)
+              ?.map((e) => CampaignPost.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$CampaignToJson(Campaign instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'sourceStockGroupId': instance.sourceStockGroupId,
+      'sourceStockGroupName': instance.sourceStockGroupName,
+      'status': instance.status,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'deletedAt': instance.deletedAt?.toIso8601String(),
+      'isDigitalDocument': instance.isDigitalDocument,
+      'isPoll': instance.isPoll,
+      'joinStockCount': instance.joinStockCount,
+      'joinUserCount': instance.joinUserCount,
+      'mappedStocksCount': instance.mappedStocksCount,
+      'stockQuantity': instance.stockQuantity,
+      'sourcePostId': instance.sourcePostId,
+      'targetEndDate': instance.targetEndDate?.toIso8601String(),
+      'boardCategory': _$BoardCategoryTypeEnumMap[instance.boardCategory],
+      'sourcePost': instance.sourcePost,
+      'campaignPosts': instance.campaignPosts,
+    };
+
+const _$BoardCategoryTypeEnumMap = {
+  BoardCategoryType.all: 'ALL',
+  BoardCategoryType.digitalDelegation: 'DIGITAL_DELEGATION',
+  BoardCategoryType.surveys: 'SURVEYS',
+  BoardCategoryType.coHoldingArrangements: 'CO_HOLDING_ARRANGEMENTS',
+  BoardCategoryType.event: 'EVENT',
+  BoardCategoryType.campaign: 'CAMPAIGN',
+  BoardCategoryType.etc: 'ETC',
+  BoardCategoryType.notice: 'NOTICE',
+  BoardCategoryType.holderListReadAndCopy: 'HOLDER_LIST_READ_AND_COPY',
+};

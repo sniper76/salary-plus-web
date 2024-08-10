@@ -1,0 +1,20 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'report_status.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ReportStatus _$ReportStatusFromJson(Map<String, dynamic> json) => ReportStatus(
+      result: json['result'] as String,
+      currentReportStatus: json['currentReportStatus'] as String,
+      changeReportStatus: json['changeReportStatus'] as String,
+    );
+
+Map<String, dynamic> _$ReportStatusToJson(ReportStatus instance) =>
+    <String, dynamic>{
+      'result': instance.result,
+      'currentReportStatus': instance.currentReportStatus,
+      'changeReportStatus': instance.changeReportStatus,
+    };

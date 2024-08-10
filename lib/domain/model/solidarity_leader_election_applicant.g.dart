@@ -1,0 +1,75 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'solidarity_leader_election_applicant.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SolidarityLeaderElectionApplicant _$SolidarityLeaderElectionApplicantFromJson(
+        Map<String, dynamic> json) =>
+    SolidarityLeaderElectionApplicant(
+      solidarityLeaderApplicantId:
+          (json['solidarityLeaderApplicantId'] as num).toInt(),
+      nickname: json['nickname'] as String,
+      totalVoteStockQuantity: (json['totalVoteStockQuantity'] as num).toInt(),
+      pollItemGroups: (json['pollItemGroups'] as List<dynamic>)
+          .map((e) => SolidarityLeaderElectionPollItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      finishedEarlyCondition: SolidarityLeaderElectionCondition.fromJson(
+          json['finishedEarlyCondition'] as Map<String, dynamic>),
+      resolutionCondition: SolidarityLeaderElectionCondition.fromJson(
+          json['resolutionCondition'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SolidarityLeaderElectionApplicantToJson(
+        SolidarityLeaderElectionApplicant instance) =>
+    <String, dynamic>{
+      'solidarityLeaderApplicantId': instance.solidarityLeaderApplicantId,
+      'nickname': instance.nickname,
+      'totalVoteStockQuantity': instance.totalVoteStockQuantity,
+      'pollItemGroups': instance.pollItemGroups,
+      'finishedEarlyCondition': instance.finishedEarlyCondition,
+      'resolutionCondition': instance.resolutionCondition,
+    };
+
+SolidarityLeaderElectionPollItem _$SolidarityLeaderElectionPollItemFromJson(
+        Map<String, dynamic> json) =>
+    SolidarityLeaderElectionPollItem(
+      pollItemId: (json['pollItemId'] as num).toInt(),
+      isVoted: json['isVoted'] as bool,
+      title: json['title'] as String,
+      voteCount: (json['voteCount'] as num).toInt(),
+      stockQuantity: (json['stockQuantity'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$SolidarityLeaderElectionPollItemToJson(
+        SolidarityLeaderElectionPollItem instance) =>
+    <String, dynamic>{
+      'pollItemId': instance.pollItemId,
+      'isVoted': instance.isVoted,
+      'title': instance.title,
+      'voteCount': instance.voteCount,
+      'stockQuantity': instance.stockQuantity,
+    };
+
+SolidarityLeaderElectionCondition _$SolidarityLeaderElectionConditionFromJson(
+        Map<String, dynamic> json) =>
+    SolidarityLeaderElectionCondition(
+      stockQuantity: (json['stockQuantity'] as num).toInt(),
+      label: json['label'] as String,
+      unit: json['unit'] as String,
+      valueText: json['valueText'] as String,
+      color: json['color'] as String,
+    );
+
+Map<String, dynamic> _$SolidarityLeaderElectionConditionToJson(
+        SolidarityLeaderElectionCondition instance) =>
+    <String, dynamic>{
+      'stockQuantity': instance.stockQuantity,
+      'label': instance.label,
+      'unit': instance.unit,
+      'valueText': instance.valueText,
+      'color': instance.color,
+    };

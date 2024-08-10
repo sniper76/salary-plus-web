@@ -1,0 +1,31 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'stock.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Stock _$StockFromJson(Map<String, dynamic> json) => Stock(
+      code: json['code'] as String,
+      name: json['name'] as String,
+      quantity: (json['quantity'] as num?)?.toInt(),
+      displayOrder: (json['displayOrder'] as num?)?.toInt(),
+      solidarity: json['solidarity'] == null
+          ? null
+          : Solidarity.fromJson(json['solidarity'] as Map<String, dynamic>),
+      memberCount: (json['memberCount'] as num?)?.toInt(),
+      stake: (json['stake'] as num?)?.toDouble(),
+      totalIssuedQuantity: (json['totalIssuedQuantity'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$StockToJson(Stock instance) => <String, dynamic>{
+      'code': instance.code,
+      'name': instance.name,
+      'quantity': instance.quantity,
+      'displayOrder': instance.displayOrder,
+      'solidarity': instance.solidarity,
+      'memberCount': instance.memberCount,
+      'stake': instance.stake,
+      'totalIssuedQuantity': instance.totalIssuedQuantity,
+    };

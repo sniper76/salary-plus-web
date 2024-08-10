@@ -1,0 +1,28 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'digital_proxy.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DigitalProxy _$DigitalProxyFromJson(Map<String, dynamic> json) => DigitalProxy(
+      templateId: json['templateId'] as String,
+      templateName: json['templateName'] as String,
+      templateRole: json['templateRole'] as String,
+      targetStartDate: json['targetStartDate'] == null
+          ? null
+          : DateTime.parse(json['targetStartDate'] as String),
+      targetEndDate: json['targetEndDate'] == null
+          ? null
+          : DateTime.parse(json['targetEndDate'] as String),
+    );
+
+Map<String, dynamic> _$DigitalProxyToJson(DigitalProxy instance) =>
+    <String, dynamic>{
+      'templateId': instance.templateId,
+      'templateName': instance.templateName,
+      'templateRole': instance.templateRole,
+      'targetStartDate': instance.targetStartDate?.toIso8601String(),
+      'targetEndDate': instance.targetEndDate?.toIso8601String(),
+    };

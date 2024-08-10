@@ -1,0 +1,25 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'user_stock_data.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+UserStockData _$UserStockDataFromJson(Map<String, dynamic> json) =>
+    UserStockData(
+      code: json['code'] as String,
+      name: json['name'] as String,
+      quantity: (json['quantity'] as num).toInt(),
+      referenceDate: DateTime.parse(json['referenceDate'] as String),
+      registerDate: DateTime.parse(json['registerDate'] as String),
+    );
+
+Map<String, dynamic> _$UserStockDataToJson(UserStockData instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'name': instance.name,
+      'quantity': instance.quantity,
+      'referenceDate': instance.referenceDate.toIso8601String(),
+      'registerDate': instance.registerDate.toIso8601String(),
+    };

@@ -1,0 +1,19 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'board_group_category.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+BoardGroupCategory _$BoardGroupCategoryFromJson(Map<String, dynamic> json) =>
+    BoardGroupCategory(
+      name: json['name'] as String,
+      displayName: json['displayName'] as String,
+    );
+
+Map<String, dynamic> _$BoardGroupCategoryToJson(BoardGroupCategory instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'displayName': instance.displayName,
+    };

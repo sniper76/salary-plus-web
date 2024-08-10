@@ -1,0 +1,41 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'notice.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Notice _$NoticeFromJson(Map<String, dynamic> json) => Notice(
+      id: (json['id'] as num).toInt(),
+      category: $enumDecode(_$NoticeCategoryTypeEnumMap, json['category']),
+      title: json['title'] as String,
+      createAt: DateTime.parse(json['createAt'] as String),
+      viewer: (json['viewer'] as num).toInt(),
+      like: (json['like'] as num).toInt(),
+      comment: (json['comment'] as num).toInt(),
+      exposureStatus:
+          $enumDecode(_$ExposureStatusEnumMap, json['exposureStatus']),
+    );
+
+Map<String, dynamic> _$NoticeToJson(Notice instance) => <String, dynamic>{
+      'id': instance.id,
+      'category': _$NoticeCategoryTypeEnumMap[instance.category]!,
+      'title': instance.title,
+      'createAt': instance.createAt.toIso8601String(),
+      'viewer': instance.viewer,
+      'like': instance.like,
+      'comment': instance.comment,
+      'exposureStatus': _$ExposureStatusEnumMap[instance.exposureStatus]!,
+    };
+
+const _$NoticeCategoryTypeEnumMap = {
+  NoticeCategoryType.notice: 'NOTICE',
+};
+
+const _$ExposureStatusEnumMap = {
+  ExposureStatus.all: 'all',
+  ExposureStatus.posting: 'posting',
+  ExposureStatus.reservation: 'reservation',
+  ExposureStatus.hide: 'hide',
+};

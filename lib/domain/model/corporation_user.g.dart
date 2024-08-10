@@ -1,0 +1,48 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'corporation_user.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+CorporationUser _$CorporationUserFromJson(Map<String, dynamic> json) =>
+    CorporationUser(
+      id: (json['id'] as num).toInt(),
+      userId: (json['userId'] as num).toInt(),
+      corporateNo: json['corporateNo'] as String,
+      corporateName: json['corporateName'] as String,
+      leadingSolidarityStockCodes:
+          (json['leadingSolidarityStockCodes'] as List<dynamic>?)
+                  ?.map((e) => e as String)
+                  .toList() ??
+              const [],
+      status: $enumDecode(_$UserStatusTypeEnumMap, json['status']),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$CorporationUserToJson(CorporationUser instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
+      'corporateNo': instance.corporateNo,
+      'corporateName': instance.corporateName,
+      'leadingSolidarityStockCodes': instance.leadingSolidarityStockCodes,
+      'status': _$UserStatusTypeEnumMap[instance.status]!,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
+const _$UserStatusTypeEnumMap = {
+  UserStatusType.active: 'ACTIVE',
+  UserStatusType.processing: 'PROCESSING',
+  UserStatusType.inactive_by_user: 'INACTIVE_BY_USER',
+  UserStatusType.inactive_by_admin: 'INACTIVE_BY_ADMIN',
+  UserStatusType.deleted_by_admin: 'DELETED_BY_ADMIN',
+  UserStatusType.unknown: 'UNKNOWN',
+};

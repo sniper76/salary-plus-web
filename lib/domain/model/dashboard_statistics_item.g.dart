@@ -1,0 +1,21 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'dashboard_statistics_item.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DashboardStatisticsItem _$DashboardStatisticsItemFromJson(
+        Map<String, dynamic> json) =>
+    DashboardStatisticsItem(
+      key: json['key'] as String,
+      value: (json['value'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$DashboardStatisticsItemToJson(
+        DashboardStatisticsItem instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };

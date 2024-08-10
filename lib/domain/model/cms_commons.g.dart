@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'cms_commons.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+CMSCommons _$CMSCommonsFromJson(Map<String, dynamic> json) => CMSCommons(
+      stocks: (json['stocks'] as List<dynamic>)
+          .map((e) => SimpleStock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stockGroups: (json['stockGroups'] as List<dynamic>)
+          .map((e) => SimpleStockGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      boardGroups: (json['boardGroups'] as List<dynamic>)
+          .map((e) => SimpleBoardGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CMSCommonsToJson(CMSCommons instance) =>
+    <String, dynamic>{
+      'stocks': instance.stocks,
+      'stockGroups': instance.stockGroups,
+      'boardGroups': instance.boardGroups,
+    };

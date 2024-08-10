@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'leader.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Leader _$LeaderFromJson(Map<String, dynamic> json) => Leader(
+      status: $enumDecode(_$LeaderStatusTypeEnumMap, json['status'],
+          unknownValue: LeaderStatusType.unknown),
+      message: json['message'] as String?,
+      applied: json['applied'] as bool?,
+    );
+
+Map<String, dynamic> _$LeaderToJson(Leader instance) => <String, dynamic>{
+      'status': _$LeaderStatusTypeEnumMap[instance.status]!,
+      'message': instance.message,
+      'applied': instance.applied,
+    };
+
+const _$LeaderStatusTypeEnumMap = {
+  LeaderStatusType.elected: 'Elected',
+  LeaderStatusType.progress: 'Election in progress',
+  LeaderStatusType.unknown: 'UNKNOWN',
+};

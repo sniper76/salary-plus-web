@@ -1,0 +1,26 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'stop_word_exception.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StopWordException _$StopWordExceptionFromJson(Map<String, dynamic> json) =>
+    StopWordException(
+      statusCode: (json['statusCode'] as num?)?.toInt(),
+      errorCode: (json['errorCode'] as num?)?.toInt(),
+      message: json['message'] as String,
+      errorData: json['errorData'] == null
+          ? null
+          : StopWordErrorData.fromJson(
+              json['errorData'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StopWordExceptionToJson(StopWordException instance) =>
+    <String, dynamic>{
+      'statusCode': instance.statusCode,
+      'errorCode': instance.errorCode,
+      'message': instance.message,
+      'errorData': instance.errorData,
+    };

@@ -1,0 +1,31 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'solidarity_leader_election_detail.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SolidarityLeaderElectionDetail _$SolidarityLeaderElectionDetailFromJson(
+        Map<String, dynamic> json) =>
+    SolidarityLeaderElectionDetail(
+      solidarityLeaderElectionId:
+          (json['solidarityLeaderElectionId'] as num).toInt(),
+      status: json['status'] as String,
+      totalVoterCount: (json['totalVoterCount'] as num).toInt(),
+      isVoted: json['isVoted'] as bool,
+      pollApplicants: (json['pollApplicants'] as List<dynamic>)
+          .map((e) => SolidarityLeaderElectionApplicant.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$SolidarityLeaderElectionDetailToJson(
+        SolidarityLeaderElectionDetail instance) =>
+    <String, dynamic>{
+      'solidarityLeaderElectionId': instance.solidarityLeaderElectionId,
+      'status': instance.status,
+      'totalVoterCount': instance.totalVoterCount,
+      'isVoted': instance.isVoted,
+      'pollApplicants': instance.pollApplicants,
+    };

@@ -1,0 +1,89 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'popup.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Popup _$PopupFromJson(Map<String, dynamic> json) => Popup(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
+      targetStartDatetime:
+          DateTime.parse(json['targetStartDatetime'] as String),
+      targetEndDatetime: DateTime.parse(json['targetEndDatetime'] as String),
+      displayTargetType: $enumDecode(
+          _$PopupDisplayTargetTypeEnumMap, json['displayTargetType']),
+      stockTargetType:
+          $enumDecode(_$PopupStockTargetTypeEnumMap, json['stockTargetType']),
+      content: json['content'] as String,
+      linkType: $enumDecode(_$PopupLinkTypeEnumMap, json['linkType']),
+      popupStatus: $enumDecode(_$PopupStatusEnumMap, json['popupStatus']),
+      linkUrl: json['linkUrl'] as String?,
+      stockCode: json['stockCode'] as String?,
+      stockName: json['stockName'] as String?,
+      stockGroupId: (json['stockGroupId'] as num?)?.toInt(),
+      stockGroupName: json['stockGroupName'] as String?,
+      linkTitle: json['linkTitle'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+      postId: (json['postId'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$PopupToJson(Popup instance) => <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'targetStartDatetime': instance.targetStartDatetime.toIso8601String(),
+      'targetEndDatetime': instance.targetEndDatetime.toIso8601String(),
+      'displayTargetType':
+          _$PopupDisplayTargetTypeEnumMap[instance.displayTargetType]!,
+      'popupStatus': _$PopupStatusEnumMap[instance.popupStatus]!,
+      'stockTargetType':
+          _$PopupStockTargetTypeEnumMap[instance.stockTargetType]!,
+      'content': instance.content,
+      'linkType': _$PopupLinkTypeEnumMap[instance.linkType]!,
+      'linkTitle': instance.linkTitle,
+      'stockCode': instance.stockCode,
+      'stockName': instance.stockName,
+      'stockGroupName': instance.stockGroupName,
+      'stockGroupId': instance.stockGroupId,
+      'linkUrl': instance.linkUrl,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+      'postId': instance.postId,
+    };
+
+const _$PopupDisplayTargetTypeEnumMap = {
+  PopupDisplayTargetType.main_home: 'MAIN_HOME',
+  PopupDisplayTargetType.news_home: 'NEWS_HOME',
+  PopupDisplayTargetType.stock_home: 'STOCK_HOME',
+  PopupDisplayTargetType.unknown: 'UNKNOWN',
+};
+
+const _$PopupStockTargetTypeEnumMap = {
+  PopupStockTargetType.all: 'ALL',
+  PopupStockTargetType.stock: 'STOCK',
+  PopupStockTargetType.stock_group: 'STOCK_GROUP',
+  PopupStockTargetType.unknown: 'UNKNOWN',
+};
+
+const _$PopupLinkTypeEnumMap = {
+  PopupLinkType.main_home: 'MAIN_HOME',
+  PopupLinkType.news_home: 'NEWS_HOME',
+  PopupLinkType.stock_home: 'STOCK_HOME',
+  PopupLinkType.notification: 'NOTIFICATION',
+  PopupLinkType.link: 'LINK',
+  PopupLinkType.digitalDocumentHome: 'DIGITAL_DOCUMENT_HOME',
+  PopupLinkType.none: 'NONE',
+};
+
+const _$PopupStatusEnumMap = {
+  PopupStatus.ready: 'READY',
+  PopupStatus.processing: 'PROCESSING',
+  PopupStatus.complete: 'COMPLETE',
+  PopupStatus.unknown: 'UNKNOWN',
+};

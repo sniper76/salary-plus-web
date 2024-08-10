@@ -1,0 +1,42 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'local_storage_zip_file.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+LocalStorageZipFile _$LocalStorageZipFileFromJson(Map<String, dynamic> json) =>
+    LocalStorageZipFile(
+      id: (json['id'] as num).toInt(),
+      type: $enumDecode(_$ActionPostTypeEnumMap, json['type']),
+      code: json['code'] as String?,
+      boardGroupType:
+          $enumDecodeNullable(_$BoardGroupTypeEnumMap, json['boardGroupType']),
+      fileKey: json['fileKey'] as String?,
+    );
+
+Map<String, dynamic> _$LocalStorageZipFileToJson(
+        LocalStorageZipFile instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$ActionPostTypeEnumMap[instance.type]!,
+      'fileKey': instance.fileKey,
+      'code': instance.code,
+      'boardGroupType': _$BoardGroupTypeEnumMap[instance.boardGroupType],
+    };
+
+const _$ActionPostTypeEnumMap = {
+  ActionPostType.action: 'action',
+  ActionPostType.campaign: 'campaign',
+};
+
+const _$BoardGroupTypeEnumMap = {
+  BoardGroupType.analysis: 'ANALYSIS',
+  BoardGroupType.action: 'ACTION',
+  BoardGroupType.debate: 'DEBATE',
+  BoardGroupType.globalboard: 'GLOBALBOARD',
+  BoardGroupType.globalcommunity: 'GLOBALCOMMUNITY',
+  BoardGroupType.globalevent: 'GLOBALEVENT',
+  BoardGroupType.unknown: 'UNKNOWN',
+};
