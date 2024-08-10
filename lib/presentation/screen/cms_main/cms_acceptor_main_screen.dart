@@ -19,8 +19,8 @@ class CmsAcceptorMainScreen extends StatefulWidget {
 class _CmsAcceptorMainScreenState extends State<CmsAcceptorMainScreen> with SingleTickerProviderStateMixin {
   SideMenuController sideMenu = SideMenuController();
 
-  final List<TopMenuRoute> route = [
-    TopMenuRoute(
+  final List<SideMenuRoute> route = [
+    SideMenuRoute(
       title: '의결권 수임',
       icon: CustomMenuIcons.action,
       path: 'acceptorMain',

@@ -157,6 +157,6 @@ class _CmsAdminMainScreenState extends State<CmsAdminMainScreen> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    return MainScreen(route: salaryPlusRoute);
+    return MainScreen(route: adminRoute);
   }
 }

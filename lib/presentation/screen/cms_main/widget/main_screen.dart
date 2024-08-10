@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 
 import 'package:act_cms/presentation/widget/act_top_menu_bar.dart';
 
-import '../../../../act_cms_app.dart';
+import 'package:act_cms/act_cms_app.dart';
 
 class MainScreen extends StatefulWidget {
-  final List<TopMenuRoute> route;
+  final List<SideMenuRoute> route;
 
   const MainScreen({super.key, required this.route});
 
@@ -63,10 +63,10 @@ class _MainScreenState extends State<MainScreen> {
       listener: (context, MainState state) => {
         if (state.zipFileDownloadList.isNotEmpty) {showMultipleSnackBars(context, state.zipFileDownloadList)}
       },
-      builder: (context, bloc, state) => Column(
+      builder: (context, bloc, state) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ActTopMenuBar(
+          ActSideMenuBar(
             routes: widget.route,
             user: state.userMe,
             onLogout: () {

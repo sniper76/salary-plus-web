@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5ba52d2-e613-4d5d-9931-f173536ccc86" name="Changes" comment="">
+    <list default="true" id="f5ba52d2-e613-4d5d-9931-f173536ccc86" name="Changes" comment="top menu and language set">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/widget/act_top_menu_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/widget/act_top_menu_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screen/cms_main/cms_acceptor_main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screen/cms_main/cms_acceptor_main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screen/cms_main/cms_admin_main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screen/cms_main/cms_admin_main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screen/cms_main/widget/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screen/cms_main/widget/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screen/cms_main/widget/user_profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screen/cms_main/widget/user_profile.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/widget/act_side_menu_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/widget/act_side_menu_bar.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723283344024</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="top menu and language set">
+      <option name="closed" value="true" />
+      <created>1723284876069</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1723284876069</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

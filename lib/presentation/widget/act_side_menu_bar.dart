@@ -28,12 +28,14 @@ class ActSideMenuBar extends StatefulWidget {
   final User? user;
   final List<SideMenuRoute> routes;
   final void Function()? onLogout;
+  final void Function()? onSetLocale;
 
   const ActSideMenuBar({
     super.key,
     required this.routes,
     this.user,
     this.onLogout,
+    this.onSetLocale,
   });
 
   @override
@@ -82,6 +84,7 @@ class _ActSideMenuBarState extends State<ActSideMenuBar> {
               UserProfile(
                 user: widget.user!,
                 onLogout: widget.onLogout,
+                onSetLocale: widget.onSetLocale,
               ),
             const SizedBox(
               height: 25,
