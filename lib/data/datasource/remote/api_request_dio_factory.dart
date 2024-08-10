@@ -1,22 +1,21 @@
 import 'dart:io';
 
-import 'package:salary_plus_web/config/constants.dart';
-import 'package:salary_plus_web/core/service/user_auth_service.dart';
-import 'package:salary_plus_web/data/datasource/remote/api_request_header_handler.dart';
+import 'package:act_cms/config/constants.dart';
+import 'package:act_cms/core/service/user_auth_service.dart';
+import 'package:act_cms/data/datasource/remote/api_request_header_handler.dart';
 import 'package:dio/dio.dart';
 
 class ApiRequestDioFactory {
   final UserAuthService authService;
+
   final ApiRequestHeaderHandler apiRequestHeaderHandler;
 
   final dio = Dio();
   final dioWithLongTimeout = Dio();
-  final getDioForPolling = Dio();
 
   ApiRequestDioFactory({required this.authService, required this.apiRequestHeaderHandler}) : super() {
     _init(dio, 30000);
     _init(dioWithLongTimeout, 5 * 60 * 60 * 1000);
-    _init(getDioForPolling, 5000);
   }
 
   void _init(Dio dio, int timeout) {
@@ -38,6 +37,7 @@ class ApiRequestDioFactory {
               await authService.logout();
               return handler.next(error);
             } else if (statusCode == HttpStatus.forbidden) {
+              authService.clearLastPinNumberVerifiedAt();
               return handler.next(error);
             }
           }

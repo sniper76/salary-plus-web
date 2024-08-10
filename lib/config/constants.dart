@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+final bool isRelease = Constants.getEnvironment.isRelease();
+const double loadMoreScrollPosition = 300;
+const String dateTimeFormatPattern = 'yyyy-MM-dd HH:mm:ss';
+const String dateTimeFormatPattern2 = 'yyyy-MM-dd HH:mm';
+const String kApiPort = String.fromEnvironment('SERVER_PORT', defaultValue: '8080');
+const String defaultUserProfileImageUrl =
+    "https://act-prod-files.s3.ap-northeast-2.amazonaws.com/static/default-user-profile-images/act_man_01.png";
+const int oneHundredMillion = 100000000;
+
 enum Environment {
   local,
   dev,
@@ -100,43 +109,10 @@ class _Config {
 }
 
 extension FlavorTypeExtension on String {
-  String getDynamicLinkUrlPrefix() {
-    switch (this) {
-      case 'dev':
-        return 'https://devconduit.page.link';
-      case 'prod':
-        return 'https://conduit.page.link';
-      default:
-        throw Exception('Invalid environment: $this');
-    }
-  }
-
-  String getPackageName() {
-    switch (this) {
-      case 'dev':
-        return 'com.conduit.act.dev';
-      case 'prod':
-        return 'com.conduit.act';
-      default:
-        throw Exception('Invalid environment: $this');
-    }
-  }
-
-  String getAppStoreId() {
-    switch (this) {
-      case 'dev':
-        return '6469601144';
-      case 'prod':
-        return '6444644879';
-      default:
-        throw Exception('Invalid environment: $this');
-    }
-  }
-
   String getApiBaseUrl() {
     switch (this) {
       case 'local':
-        return 'http://localhost:${AppConfig.kApiPort}/api';
+        return 'http://localhost:$kApiPort/api';
       case 'dev':
         return 'https://devapi.act.ag/api';
       case 'prod':
@@ -183,34 +159,6 @@ class AppConfig {
 
   static const String globalBoardCode = 'Z00001';
   static const String stopWordText = '금칙어';
-
-  static bool isRelease = Constants.getEnvironment.isRelease();
-  static const double loadMoreScrollPosition = 300;
-  static const String dateTimeFormatPattern = 'yyyy-MM-dd HH:mm';
-  static const String dateTimeWithSecondFormatPattern = 'yyyy-MM-dd HH:mm:ss';
-  static const String kApiPort = String.fromEnvironment('SERVER_PORT', defaultValue: '8080');
-  static const String defaultUserProfileImageUrl =
-      "https://act-prod-files.s3.ap-northeast-2.amazonaws.com/static/default-user-profile-images/act_man_01.png";
-  static const int oneHundredMillion = 100000000;
-
-  static const double defaultPadding = 16.0;
-  static const double cmsTitleFontSize = 24.0;
-  static const double maxWidth = 1200.0;
-  static const double rankingWidgetWidth = 300.0;
-  static const double leftSectionWidth = 800.0;
-
-  static const String policyUrl = 'https://act-prod-files.s3.ap-northeast-2.amazonaws.com/static/policy/terms.html';
-  static const String privacyUrl = 'https://act-prod-files.s3.ap-northeast-2.amazonaws.com/static/policy/privacy.html';
-
-  static const String iosDownloadLink = 'https://apps.apple.com/app/id6444644879';
-  static const String androidDownloadLink = 'https://play.google.com/store/apps/details?id=com.conduit.act';
-
-  static const String holderListReadAndCopyName = 'HOLDER_LIST_READ_AND_COPY';
-
-  static const String globalBoardTitle = '주주행동 News';
-  static const String globalCommunityTitle = '자유게시판';
-
-  static const String infoPageUrl = 'https://web.act.ag/';
 }
 
 class AnimationDuration {
@@ -220,3 +168,6 @@ class AnimationDuration {
   static const Duration medium = Duration(milliseconds: 500);
   static const Duration long = Duration(milliseconds: 850);
 }
+
+const defaultPadding = 16.0;
+const cmsTitleFontSize = 24.0;

@@ -1,29 +1,30 @@
 import 'dart:math';
 
-import 'package:salary_plus_web/data/response/paging.dart';
+import 'package:act_cms/domain/model/paging.dart';
+import 'package:act_cms/presentation/widget/act_data_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';
 
-mixin PagingState {
+abstract class PagingState {
   Paging get paging;
 }
+
+const maxPageSize = 7;
+const maxPaginationWith = 700.0;
+const minPaginationWith = 150.0;
+const onePageItemWith = 100.0;
 
 class ActPagination<B extends StateStreamable<S>, S extends PagingState> extends StatelessWidget {
   final Paging paging;
 
-  final NumberPaginatorController _numberPaginatorController = NumberPaginatorController();
-  final Function(int page) onChangePage;
-
-  final int maxPageSize = 5;
-  final double maxPaginationWith = 400.0;
-  final double minPaginationWith = 200.0;
-  final double onePageItemWith = 80.0;
+  final _numberPaginatorController = NumberPaginatorController();
+  final Function(int page) onPageChange;
 
   ActPagination({
     super.key,
     required this.paging,
-    required this.onChangePage,
+    required this.onPageChange,
   });
 
   @override
@@ -42,8 +43,8 @@ class ActPagination<B extends StateStreamable<S>, S extends PagingState> extends
             key: Key(paging.toString()),
             controller: _numberPaginatorController,
             initialPage: paging.page - 1,
-            numberPages: paging.totalPage,
-            onPageChange: (int index) => onChangePage(index + 1),
+            numberPages: (paging.total / apiLoadSize).ceil(),
+            onPageChange: (int index) => onPageChange(index + 1),
             config: const NumberPaginatorUIConfig(
               buttonSelectedBackgroundColor: Colors.transparent,
               buttonUnselectedBackgroundColor: Colors.transparent,
@@ -57,12 +58,12 @@ class ActPagination<B extends StateStreamable<S>, S extends PagingState> extends
   }
 
   double getPaginationWidth() {
-    final int totalPage = paging.totalPage;
+    final totalPages = paging.totalPage;
 
-    if (totalPage > maxPageSize) {
+    if (totalPages > maxPageSize) {
       return maxPaginationWith;
     }
 
-    return max(totalPage * onePageItemWith, minPaginationWith);
+    return max(totalPages * onePageItemWith, minPaginationWith);
   }
 }

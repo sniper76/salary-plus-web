@@ -1,1 +1,0 @@
-enum PollViewType { vote, result }

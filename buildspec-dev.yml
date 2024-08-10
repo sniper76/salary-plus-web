@@ -9,7 +9,7 @@ phases:
   pre_build:
     commands:
       - echo Pre Build started on `date`
-      - git clone https://github.com/flutter/flutter.git -b 3.22.2
+      - git clone https://github.com/flutter/flutter.git -b 3.16.1
       - export PATH="$PATH:`pwd`/flutter/bin"
       - flutter precache
       - flutter config --enable-web

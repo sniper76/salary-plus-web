@@ -1,5 +1,5 @@
-import 'package:salary_plus_web/domain/model/user/token.dart';
-import 'package:salary_plus_web/domain/model/user/user.dart';
+import 'package:act_cms/domain/model/token.dart';
+import 'package:act_cms/domain/model/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'verify_auth.g.dart';

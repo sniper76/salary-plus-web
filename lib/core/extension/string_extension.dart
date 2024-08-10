@@ -45,7 +45,7 @@ extension StringExtension on String {
       if (_urlRegExp.hasMatch(this)) {
         final convertStrings = [];
         final matches = _urlRegExp.allMatches(this);
-        for (var e in matches) {
+        matches.forEach((e) {
           final originText = substring(e.start, e.end);
           int startIndex = e.start - 1;
           int endIndex = e.end + 1;
@@ -63,7 +63,7 @@ extension StringExtension on String {
             convertUrl = convertUrl.replaceAll(originText, '<a href="$originText">$originText</a>');
             convertStrings.add(originText);
           }
-        }
+        });
       }
 
       return convertUrl;
@@ -71,8 +71,6 @@ extension StringExtension on String {
       return convertUrl;
     }
   }
-
-  String get wordBreak => replaceAllMapped(RegExp(r'(\S)(?=\S)'), (m) => '${m[1]}\u200D');
 
   String get unEscapedString {
     return parse(this).body!.text;

@@ -1,22 +1,30 @@
-import 'package:salary_plus_web/config/constants.dart';
-import 'package:salary_plus_web/core/route/app_router.dart';
-import 'package:salary_plus_web/core/service/user_auth_service.dart';
+import 'package:act_cms/core/injection.dart';
+import 'package:act_cms/core/service/user_auth_service.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:get_it/get_it.dart';
 
-class AuthGuard extends AutoRouteGuard {
-  final UserAuthService _authService = GetIt.I<UserAuthService>();
+class AuthGuard extends AutoRedirectGuard {
+  final _authService = getIt<UserAuthService>();
+
+  AuthGuard() {
+    _authService.addListener(() {
+      if (!_authService.isAuthenticated() || !_authService.isUserStatusActivated()) {
+        reevaluate();
+      }
+    });
+  }
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final bool allowedUserCondition = _authService.hasAccessToken();
-    final bool extraAllowedCondition = resolver.route.pathParams.rawMap['stockCode'] == AppConfig.globalBoardCode;
-
-    if (allowedUserCondition || extraAllowedCondition) {
+    final isAuthenticated = _authService.isAuthenticated();
+    if (isAuthenticated && _authService.isUserStatusActivated()) {
       resolver.next(true);
     } else {
-      if (router.current.name != HomeRoute.name) resolver.redirect(const HomeRoute());
-      if (_authService.needLoginPopup != true) _authService.setNeedLoginFlag(true);
+      router.replaceNamed('/splash');
     }
+  }
+
+  @override
+  Future<bool> canNavigate(RouteMatch route) async {
+    return _authService.isAuthenticated() && _authService.isUserStatusActivated();
   }
 }

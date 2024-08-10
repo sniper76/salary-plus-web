@@ -6,23 +6,27 @@ part of 'data_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DataResponseImpl<T> _$$DataResponseImplFromJson<T>(
+DataResponse<T> _$DataResponseFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$DataResponseImpl<T>(
+    DataResponse<T>(
       paging: json['paging'] == null
           ? null
           : Paging.fromJson(json['paging'] as Map<String, dynamic>),
+      search: json['search'] == null
+          ? null
+          : Searching.fromJson(json['search'] as Map<String, dynamic>),
       data: _$nullableGenericFromJson(json['data'], fromJsonT),
     );
 
-Map<String, dynamic> _$$DataResponseImplToJson<T>(
-  _$DataResponseImpl<T> instance,
+Map<String, dynamic> _$DataResponseToJson<T>(
+  DataResponse<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
       'paging': instance.paging,
+      'search': instance.search,
       'data': _$nullableGenericToJson(instance.data, toJsonT),
     };
 

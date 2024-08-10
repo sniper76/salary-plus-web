@@ -26,11 +26,4 @@ class FormatUtils {
       return '${numberFormat.format(amount)}원';
     }
   }
-
-  static String formatVerificationCode(String? verificationCode) {
-    if (verificationCode == null || verificationCode.isEmpty) {
-      return '';
-    }
-    return verificationCode.replaceRange(0, 1, '${verificationCode[0]}-');
-  }
 }

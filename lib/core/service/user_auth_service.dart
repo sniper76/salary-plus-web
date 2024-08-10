@@ -1,25 +1,38 @@
-import 'package:salary_plus_web/domain/model/user/token.dart';
-import 'package:salary_plus_web/domain/model/user/user.dart';
-import 'package:flutter/foundation.dart';
+import 'package:act_cms/core/extension/datetime_extension.dart';
+import 'package:act_cms/domain/model/token.dart';
+import 'package:act_cms/domain/model/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:uuid/uuid.dart';
 
 class UserAuthService extends ChangeNotifier {
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
-  final Uuid _uuid = const Uuid();
+  static const _accessTokenStorageKey = 'key_access_token';
+  static const _lastPinNumberVerifiedAtStorageKey = 'key_last_pin_number_verified_at';
+  static const _lastMyDataUpdatedAtStorageKey = 'key_last_my_data_updated_at_at';
 
-  static const String _accessTokenStorageKey = 'key_access_token';
-  static const String _userUuidKey = 'user_uuid';
+  final _iOSSecureStorageOptions = const IOSOptions(
+    accessibility: KeychainAccessibility.first_unlock,
+  );
+  final _androidSecureStorageOptions = const AndroidOptions(
+    encryptedSharedPreferences: true,
+  );
+  final _secureStorage = const FlutterSecureStorage(
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock,
+    ),
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
 
   String _accessToken = '';
+
   User? _user;
-  String? _userUuid;
-  bool? _needLoginPopup;
+  DateTime? _lastPinNumberVerifiedAt;
+  DateTime? _lastMyDataUpdatedAt;
 
   String get accessToken => _accessToken;
-  String get userUuid => _userUuid ?? '';
+
   User? get userMe => _user;
-  bool? get needLoginPopup => _needLoginPopup;
 
   init() async {
     await _load();
@@ -30,16 +43,35 @@ class UserAuthService extends ChangeNotifier {
   }
 
   bool isAuthenticated() {
-    return _accessToken.isNotEmpty && _user != null;
+    return _accessToken.isNotEmpty && _user != null && !(_user?.isChangePasswordRequired ?? false);
   }
 
   bool isUserStatusActivated() {
     return _user?.isActiveStatus ?? false;
   }
 
-  void setNeedLoginFlag(bool flag) {
-    _needLoginPopup = flag;
-    notifyListeners();
+  bool isPinNumberRegistered() {
+    return _user?.isPinNumberRegistered ?? false;
+  }
+
+  bool isPinNumberVerification() {
+    final userLastPinNumberVerifiedDuration = DateTime.now().getDurationDays(date: _user?.lastPinNumberVerifiedAt);
+
+    final lastPinNumberVerifiedDuration =
+        _lastPinNumberVerifiedAt != null ? DateTime.now().getDurationDays(date: _lastPinNumberVerifiedAt) : -1;
+    return (userLastPinNumberVerifiedDuration >= 0 && userLastPinNumberVerifiedDuration <= 1) &&
+        (lastPinNumberVerifiedDuration >= 0 && lastPinNumberVerifiedDuration <= 1);
+  }
+
+  bool isTodayMyDataUpdated() {
+    try {
+      final lastMyDataUpdatedDate = DateTime.parse(_lastMyDataUpdatedAt?.toFormatString() ?? '');
+      final toDate = DateTime.parse(DateTime.now().toFormatString());
+      final lastMyDataUpdatedDuration = toDate.getDurationDays(date: lastMyDataUpdatedDate);
+      return lastMyDataUpdatedDuration == 0;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> login({
@@ -52,6 +84,8 @@ class UserAuthService extends ChangeNotifier {
       await _secureStorage.write(
         key: _accessTokenStorageKey,
         value: token.accessToken,
+        aOptions: _androidSecureStorageOptions,
+        iOptions: _iOSSecureStorageOptions,
       );
 
       _accessToken = token.accessToken;
@@ -68,34 +102,81 @@ class UserAuthService extends ChangeNotifier {
     notifyListeners();
   }
 
+  verifiedPinNumber(User user) async {
+    _user = user;
+    await _secureStorage.write(
+      key: _lastPinNumberVerifiedAtStorageKey,
+      value: DateTime.now().toIso8601String(),
+      aOptions: _androidSecureStorageOptions,
+      iOptions: _iOSSecureStorageOptions,
+    );
+    _lastPinNumberVerifiedAt = DateTime.now();
+
+    // _registerPushTopics();
+
+    notifyListeners();
+  }
+
+  updatedMyData() async {
+    await _secureStorage.write(
+      key: _lastMyDataUpdatedAtStorageKey,
+      value: DateTime.now().toIso8601String(),
+      aOptions: _androidSecureStorageOptions,
+      iOptions: _iOSSecureStorageOptions,
+    );
+    _lastMyDataUpdatedAt = DateTime.now();
+  }
+
+  clearLastPinNumberVerifiedAt() {
+    _lastPinNumberVerifiedAt = null;
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     await _secureStorage.delete(
       key: _accessTokenStorageKey,
+      iOptions: _iOSSecureStorageOptions,
+      aOptions: _androidSecureStorageOptions,
     );
+
+    await _secureStorage.delete(
+      key: _lastPinNumberVerifiedAtStorageKey,
+      iOptions: _iOSSecureStorageOptions,
+      aOptions: _androidSecureStorageOptions,
+    );
+
+    await _secureStorage.delete(
+      key: _lastMyDataUpdatedAtStorageKey,
+      iOptions: _iOSSecureStorageOptions,
+      aOptions: _androidSecureStorageOptions,
+    );
+
+    // _unregisterPushTopics();
 
     _accessToken = '';
     _user = null;
-
+    _lastPinNumberVerifiedAt = null;
+    _lastMyDataUpdatedAt = null;
     notifyListeners();
   }
 
   _load() async {
     try {
-      _accessToken = (await _secureStorage.read(key: _accessTokenStorageKey)) ?? '';
+      _accessToken = (await _secureStorage.read(
+            key: _accessTokenStorageKey,
+            iOptions: _iOSSecureStorageOptions,
+            aOptions: _androidSecureStorageOptions,
+          )) ??
+          '';
 
-      String? localSavedUserUuid = await _secureStorage.read(
-        key: _userUuidKey,
+      final lastMyDataUpdatedAt = await _secureStorage.read(
+        key: _lastMyDataUpdatedAtStorageKey,
+        iOptions: _iOSSecureStorageOptions,
+        aOptions: _androidSecureStorageOptions,
       );
-      if (localSavedUserUuid == null) {
-        _userUuid = _uuid.v4();
-        _secureStorage.write(key: _userUuidKey, value: _userUuid);
-      } else {
-        _userUuid = localSavedUserUuid;
+      if (lastMyDataUpdatedAt != null && lastMyDataUpdatedAt.isNotEmpty) {
+        _lastMyDataUpdatedAt = DateTime.parse(lastMyDataUpdatedAt);
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print('UserAuthService load error: $e');
-      }
-    }
+    } catch (e) {}
   }
 }

@@ -1,32 +1,31 @@
-import 'package:salary_plus_web/config/constants.dart';
+import 'package:act_cms/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppTheme {
   static MaterialColor primaryColor = Constants.getPrimaryColor;
-
-  static const TextStyle defaultTextStyle = TextStyle(
+  static const defaultTextStyle = TextStyle(
     fontFamily: 'Pretendard',
     fontSize: 18,
     wordSpacing: 1,
     color: Color(0xff333333),
     height: 1.4,
   );
-
-  static final ColorScheme defaultColorScheme = ColorScheme(
+  static final defaultColorScheme = ColorScheme(
     primary: primaryColor.shade500,
     onPrimary: Colors.white,
     secondary: const Color(0xFF439CFB),
     onSecondary: Colors.white,
     error: const Color(0xFFFF0000),
     onError: Colors.white,
+    background: Colors.white,
+    onBackground: Colors.grey.shade400,
     surface: const Color(0xffF9FAFC),
     onSurface: Colors.black54,
     brightness: Brightness.light,
     outline: Colors.grey.shade200,
   );
-
-  static final TextTheme defaultTextTheme = TextTheme(
+  static final defaultTextTheme = TextTheme(
     displayLarge: defaultTextStyle.copyWith(fontWeight: FontWeight.w600, fontSize: 36, height: 1.55),
     displayMedium: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 22),
     // h1
@@ -51,29 +50,29 @@ class AppTheme {
   );
 
   // ElevatedButton의 기본 스타일 추가
-  static final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
+  static final elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
       // 버튼의 배경색 설정
-      backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-        if (states.contains(WidgetState.disabled)) {
+      backgroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
           return const Color(0xffD9D9D9); // 비활성화 상태일 때의 배경색
         }
         return primaryColor.shade600; // 기본 배경색
       }),
-      foregroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-        if (states.contains(WidgetState.disabled)) {
+      foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
           return Colors.grey.shade400; // 비활성화 상태일 때의 배경색
         }
         return Colors.white; // 기본 배경색
       }),
       // 버튼의 모양 설정: 둥근 모서리를 가진 사각형
-      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
       // 버튼 텍스트 스타일 설정
-      textStyle: WidgetStateProperty.all<TextStyle>(
+      textStyle: MaterialStateProperty.all<TextStyle>(
         defaultTextStyle.copyWith(
           color: Colors.white,
           fontSize: 16.0,
@@ -83,7 +82,7 @@ class AppTheme {
     ),
   );
 
-  static final ThemeData themeData = ThemeData(
+  static final themeData = ThemeData(
     primaryColor: primaryColor.shade500,
     primaryColorDark: primaryColor.shade600,
     primaryColorLight: primaryColor.shade400,
@@ -110,15 +109,11 @@ class AppTheme {
     ),
     colorScheme: defaultColorScheme,
     elevatedButtonTheme: elevatedButtonTheme,
-    useMaterial3: false,
-    splashColor: Colors.transparent,
-    highlightColor: Colors.transparent,
-    hoverColor: Colors.transparent,
   );
 
-  static final ThemeData light = themeData;
+  static final light = themeData;
 
-  static final ThemeData dark = themeData.copyWith(
+  static final dark = themeData.copyWith(
     brightness: Brightness.dark,
     primaryColorDark: Colors.grey.shade300,
     primaryColorLight: Colors.grey.shade800,

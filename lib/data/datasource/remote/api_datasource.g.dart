@@ -6,7 +6,7 @@ part of 'api_datasource.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _ApiDataSource implements ApiDataSource {
   _ApiDataSource(
@@ -19,12 +19,101 @@ class _ApiDataSource implements ApiDataSource {
   String? baseUrl;
 
   @override
-  Future<VerifyAuth> loginAdmin(Map<String, dynamic> data) async {
+  Future<AuthResult> sendAuthRequest(
+    String name,
+    String birthDate,
+    String gender,
+    String provider,
+    String phoneNumber,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
+    final _data = {
+      'name': name,
+      'birthDate': birthDate,
+      'gender': gender,
+      'provider': provider,
+      'phoneNumber': phoneNumber,
+    };
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AuthResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/sms/send-auth-request',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AuthResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<AuthResult> reSendAuthRequest(
+    String txSeqNo,
+    String phoneNumber,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'txSeqNo': txSeqNo,
+      'phoneNumber': phoneNumber,
+    };
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<AuthResult>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/sms/resend-auth-request',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AuthResult.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<VerifyAuth> verifyAuthCode(
+    String name,
+    String birthDate,
+    String gender,
+    String provider,
+    String phoneNumber,
+    String code,
+    String? txSeqNo,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'name': name,
+      'birthDate': birthDate,
+      'gender': gender,
+      'provider': provider,
+      'phoneNumber': phoneNumber,
+      'code': code,
+      'txSeqNo': txSeqNo,
+    };
+    _data.removeWhere((k, v) => v == null);
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<VerifyAuth>(Options(
       method: 'POST',
@@ -33,7 +122,7 @@ class _ApiDataSource implements ApiDataSource {
     )
             .compose(
               _dio.options,
-              '/admin/auth/login',
+              '/sms/verify-auth-code',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,25 +131,25 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = VerifyAuth.fromJson(_result.data!);
-    return _value;
+    final value = VerifyAuth.fromJson(_result.data!);
+    return value;
   }
 
   @override
-  Future<DataResponse<List<BaseStock>>> getCommonStocks() async {
+  Future<User> registerPinNumber(String pinNumber) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<BaseStock>>>(Options(
-      method: 'GET',
+    final _data = {'pinNumber': pinNumber};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/commons/stocks',
+              '/auth/register-pin-number',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -69,24 +158,43 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<BaseStock>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<BaseStock>(
-                  (i) => BaseStock.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return _value;
+    final value = User.fromJson(_result.data!);
+    return value;
   }
 
   @override
-  Future<void> postStockSearchTrend(String stockCode) async {
+  Future<User> verifyPinNumber(String pinNumber) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {'stockCode': stockCode};
+    final _data = {'pinNumber': pinNumber};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/verify-pin-number',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = User.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<void> resetPinNumber() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
@@ -94,7 +202,7 @@ class _ApiDataSource implements ApiDataSource {
     )
         .compose(
           _dio.options,
-          '/stock-search-trends',
+          '/auth/reset-pin-number',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -106,25 +214,28 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<DataResponse<UploadImageFile>> uploadImage(
-    String contentType,
-    FormData file,
+  Future<User> registerUserInfo(
+    String email,
+    String nickname,
+    bool isAgreeToReceiveMail,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Content-Type': contentType};
-    _headers.removeWhere((k, v) => v == null);
-    final _data = file;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<UploadImageFile>>(Options(
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'email': email,
+      'nickname': nickname,
+      'isAgreeToReceiveMail': isAgreeToReceiveMail,
+    };
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<User>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
-      contentType: contentType,
     )
             .compose(
               _dio.options,
-              '/images',
+              '/auth/register-user-info',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -133,59 +244,55 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<UploadImageFile>.fromJson(
+    final value = User.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<CanUse>> checkEmail(String email) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'email': email};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<CanUse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/check-email',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<CanUse>.fromJson(
       _result.data!,
-      (json) => UploadImageFile.fromJson(json as Map<String, dynamic>),
+      (json) => CanUse.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<WebVerification> createWebVerification(
-      Map<String, dynamic> data) async {
+  Future<DataResponse<CanUse>> checkNickname(String nickname) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<WebVerification>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/auth/web/generate-verification-code',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = WebVerification.fromJson(_result.data!);
-    return _value;
-  }
-
-  @override
-  Future<SucceededWebVerification> verifyWebVerification(
-      Map<String, dynamic> data) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
+    final _data = {'nickname': nickname};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<SucceededWebVerification>(Options(
+        _setStreamType<DataResponse<CanUse>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/auth/web/verify-verification-code',
+              '/auth/check-nickname',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -194,12 +301,66 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = SucceededWebVerification.fromJson(_result.data!);
-    return _value;
+    final value = DataResponse<CanUse>.fromJson(
+      _result.data!,
+      (json) => CanUse.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
   }
 
   @override
-  Future<DataResponse<User>> fetchUserMe() async {
+  Future<MyDataTokenResponse> requestMyDataToken() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<MyDataTokenResponse>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/mydata-token-request',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = MyDataTokenResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<void> logout() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/auth/logout',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<User>> userMe() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -221,15 +382,236 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<User>.fromJson(
+    final value = DataResponse<User>.fromJson(
       _result.data!,
       (json) => User.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<AnonymousWriteCount>> getAnonymousWriteCount() async {
+  Future<DataResponse<User>> updateUserMe(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/users/me',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> updateUserAddress(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/users/my-address',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<UserProfile>> profile(
+    int userId,
+    String? stockCode,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'stockCode': stockCode};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<UserProfile>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/users/${userId}/profile',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<UserProfile>.fromJson(
+      _result.data!,
+      (json) => UserProfile.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> uploadMyData(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/mydata',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> withdrawal() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/withdrawal',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> updatePushToken(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/push-token',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> updateNickname(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/nickname',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> updateProfileImage(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/my-profile-image',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<AnonymousWriteCount>> anonymousWriteCount() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -251,28 +633,55 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<AnonymousWriteCount>.fromJson(
+    final value = DataResponse<AnonymousWriteCount>.fromJson(
       _result.data!,
       (json) => AnonymousWriteCount.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<void> blockUser(Map<String, dynamic> data) async {
+  Future<List<int>> downloadDigitalDocumentPdf(int digitalDocumentId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/users/digital-document/${digitalDocumentId}/download-document',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<void> completeDigitalDocument(int digitalDocumentId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
     await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'POST',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/users/me/blocked-users',
+          '/users/digital-document/${digitalDocumentId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -284,24 +693,411 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<DataResponse<List<Post>>> getPostList(
+  Future<void> saveDigitalDocument(
+    int digitalDocumentId,
+    File signImage,
+    File idCardImage,
+    List<File>? bankAccountImages,
+    String answerData,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'signImage',
+      MultipartFile.fromFileSync(
+        signImage.path,
+        filename: 'user_sign.jpg',
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    ));
+    _data.files.add(MapEntry(
+      'idCardImage',
+      MultipartFile.fromFileSync(
+        idCardImage.path,
+        filename: 'user_id_card.jpg',
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    ));
+    if (bankAccountImages != null) {
+      _data.files.addAll(bankAccountImages.map((i) => MapEntry(
+          'bankAccountImages',
+          MultipartFile.fromFileSync(
+            i.path,
+            filename: i.path.split(Platform.pathSeparator).last,
+            contentType: MediaType.parse('image/jpeg'),
+          ))));
+    }
+    _data.fields.add(MapEntry(
+      'answerData',
+      answerData,
+    ));
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/users/digital-document/${digitalDocumentId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> saveDigitalDocumentEtc(
+    int digitalDocumentId,
+    File signImage,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry(
+      'signImage',
+      MultipartFile.fromFileSync(
+        signImage.path,
+        filename: 'user_sign.jpg',
+        contentType: MediaType.parse('image/jpeg'),
+      ),
+    ));
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+        .compose(
+          _dio.options,
+          '/users/digital-document/${digitalDocumentId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> deleteDigitalDocument(int digitalDocumentId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/users/digital-document/${digitalDocumentId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<List<int>> downloadConfidential(int userId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/download-document/solidarity-leader-confidential-agreement',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<Home> home() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<Home>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/home',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = Home.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Solidarity>>> mySolidarity() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Solidarity>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/home/my-solidarity',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Solidarity>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Solidarity>(
+                  (i) => Solidarity.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Solidarity>>> updateSolidarity(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Solidarity>>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/home/my-solidarity',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Solidarity>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Solidarity>(
+                  (i) => Solidarity.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<StockHome> stockHome(String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<StockHome>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/stocks/${stockCode}/home',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = StockHome.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Solidarity>> getSolidarity(String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Solidarity>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/stocks/${stockCode}/solidarity',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Solidarity>.fromJson(
+      _result.data!,
+      (json) => Solidarity.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> enrollStockLeader(String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/stocks/${stockCode}/solidarity/apply-leader',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> cancelEnrollStockLeader(String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/stocks/${stockCode}/solidarity/apply-leader',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<List<BoardGroupCategory>>> stockBoardGroupCategories(
+    String stockCode,
+    String boardGroup,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<BoardGroupCategory>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/stocks/${stockCode}/board-groups/${boardGroup}/categories',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<BoardGroupCategory>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<BoardGroupCategory>(
+                  (i) => BoardGroupCategory.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Post>>> stockBoardPosts(
     String stockCode,
     String boardGroup,
     String? boardCategory,
-    String? boardCategories,
     int page,
     int size,
     String? sorts,
-    bool? isExclusiveToHolders,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'boardCategory': boardCategory,
-      r'boardCategories': boardCategories,
       r'page': page,
       r'size': size,
       r'sorts': sorts,
-      r'isExclusiveToHolders': isExclusiveToHolders,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -323,7 +1119,7 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<Post>>.fromJson(
+    final value = DataResponse<List<Post>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
@@ -331,54 +1127,11 @@ class _ApiDataSource implements ApiDataSource {
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<List<Post>>> getPostListPreviews(
-    String stockCode,
-    String boardGroup,
-    String? boardCategory,
-    String? boardCategories,
-  ) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'boardCategory': boardCategory,
-      r'boardCategories': boardCategories,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<Post>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/stocks/${stockCode}/board-groups/${boardGroup}/posts/previews',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<List<Post>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<Post>((i) => Post.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return _value;
-  }
-
-  @override
-  Future<DataResponse<Post>> getPostDetail(
+  Future<DataResponse<Post>> stockBoardPostDetail(
     String stockCode,
     String boardGroup,
     int postId,
@@ -404,15 +1157,15 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Post>.fromJson(
+    final value = DataResponse<Post>.fromJson(
       _result.data!,
       (json) => Post.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<Post>> createPost(
+  Future<DataResponse<Post>> createBoardPost(
     String stockCode,
     String boardGroup,
     Map<String, dynamic> data,
@@ -439,15 +1192,15 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Post>.fromJson(
+    final value = DataResponse<Post>.fromJson(
       _result.data!,
       (json) => Post.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<Post>> updatePost(
+  Future<DataResponse<Post>> updateBoardPost(
     String stockCode,
     String boardGroup,
     int postId,
@@ -475,15 +1228,15 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Post>.fromJson(
+    final value = DataResponse<Post>.fromJson(
       _result.data!,
       (json) => Post.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<void> deletePost(
+  Future<void> deleteBoardPost(
     String stockCode,
     String boardGroup,
     int postId,
@@ -511,7 +1264,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<void> reportPost(
+  Future<void> reportBoardPost(
     String stockCode,
     String boardGroup,
     int postId,
@@ -541,7 +1294,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<DataResponse<Post>> likePost(
+  Future<void> likeBoardPost(
     String stockCode,
     String boardGroup,
     int postId,
@@ -550,32 +1303,26 @@ class _ApiDataSource implements ApiDataSource {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+    await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/likes',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<Post>.fromJson(
-      _result.data!,
-      (json) => Post.fromJson(json as Map<String, dynamic>),
-    );
-    return _value;
+        .compose(
+          _dio.options,
+          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/likes',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
   }
 
   @override
-  Future<DataResponse<Post>> unlikePost(
+  Future<void> unlikeBoardPost(
     String stockCode,
     String boardGroup,
     int postId,
@@ -584,51 +1331,14 @@ class _ApiDataSource implements ApiDataSource {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+    await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/likes',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<Post>.fromJson(
-      _result.data!,
-      (json) => Post.fromJson(json as Map<String, dynamic>),
-    );
-    return _value;
-  }
-
-  @override
-  Future<void> createAnswerOnPostPoll(
-    String stockCode,
-    String boardGroup,
-    int postId,
-    int pollId,
-    Map<String, dynamic> data,
-  ) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
         .compose(
           _dio.options,
-          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/polls/${pollId}/answers',
+          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/likes',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -640,38 +1350,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<void> updateAnswerOnPostPoll(
-    String stockCode,
-    String boardGroup,
-    int postId,
-    int pollId,
-    Map<String, dynamic> data,
-  ) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(data);
-    await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'PUT',
-      headers: _headers,
-      extra: _extra,
-    )
-        .compose(
-          _dio.options,
-          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/polls/${pollId}/answers',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-  }
-
-  @override
-  Future<DataResponse<List<Comment>>> getCommentList(
+  Future<DataResponse<List<Comment>>> stockBoardPostComments(
     String stockCode,
     String boardGroup,
     int postId,
@@ -705,7 +1384,7 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<Comment>>.fromJson(
+    final value = DataResponse<List<Comment>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
@@ -713,11 +1392,11 @@ class _ApiDataSource implements ApiDataSource {
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<Comment>> createComment(
+  Future<DataResponse<Comment>> createStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -745,15 +1424,15 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Comment>.fromJson(
+    final value = DataResponse<Comment>.fromJson(
       _result.data!,
       (json) => Comment.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<Comment>> updateComment(
+  Future<DataResponse<Comment>> updateStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -782,15 +1461,15 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Comment>.fromJson(
+    final value = DataResponse<Comment>.fromJson(
       _result.data!,
       (json) => Comment.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<void> deleteComment(
+  Future<void> deleteStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -819,7 +1498,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<void> likeComment(
+  Future<void> likeStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -848,7 +1527,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<void> reportComment(
+  Future<void> reportStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -879,7 +1558,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<void> unlikeComment(
+  Future<void> unlikeStockBoardPostComment(
     String stockCode,
     String boardGroup,
     int postId,
@@ -908,7 +1587,7 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<DataResponse<List<Comment>>> getReplyList(
+  Future<DataResponse<List<Comment>>> stockBoardPostCommentReplies(
     String stockCode,
     String boardGroup,
     int postId,
@@ -943,7 +1622,7 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<Comment>>.fromJson(
+    final value = DataResponse<List<Comment>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
@@ -951,11 +1630,11 @@ class _ApiDataSource implements ApiDataSource {
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<Comment>> createReply(
+  Future<DataResponse<Comment>> createStockBoardPostCommentReply(
     String stockCode,
     String boardGroup,
     int postId,
@@ -984,15 +1663,77 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Comment>.fromJson(
+    final value = DataResponse<Comment>.fromJson(
       _result.data!,
       (json) => Comment.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DigitalProxyUrl> getPostDigitalProxyEmbeddedUrl(
+  Future<void> answerStockBoardPostPoll(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int pollId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/polls/${pollId}/answers',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> answerUpdateStockBoardPostPoll(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int pollId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/polls/${pollId}/answers',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DigitalProxyUrl> getStockBoarDigitalProxyEmbeddedUrl(
     String stockCode,
     String boardGroup,
     int postId,
@@ -1018,68 +1759,58 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DigitalProxyUrl.fromJson(_result.data!);
-    return _value;
+    final value = DigitalProxyUrl.fromJson(_result.data!);
+    return value;
   }
 
   @override
-  Future<DataResponse<Post>> saveHolderListReadAndCopyPost(
+  Future<SolidarityLeaderElectionApplication>
+      getSolidarityLeaderElectionApplcation(
     String stockCode,
-    String boardGroupName,
-    String? createPostRequest,
-    File signImage,
-    List<File>? idCardImage,
-    List<File>? bankAccountImages,
-    List<File>? hectoEncryptedBankAccountPdf,
+    int solidarityLeaderElectionId,
+    int solidarityLeaderApplicantId,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SolidarityLeaderElectionApplication>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/solidarity-leader-elections/${solidarityLeaderElectionId}/solidarity-leader-applicants/${solidarityLeaderApplicantId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = SolidarityLeaderElectionApplication.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<UploadImageFile>> uploadImage(File file) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
-    if (createPostRequest != null) {
-      _data.fields.add(MapEntry(
-        'createPostRequest',
-        createPostRequest,
-      ));
-    }
     _data.files.add(MapEntry(
-      'signImage',
+      'file',
       MultipartFile.fromFileSync(
-        signImage.path,
-        filename: 'user_sign.jpg',
+        file.path,
+        filename: 'user_profile.jpg',
         contentType: MediaType.parse('image/jpeg'),
       ),
     ));
-    if (idCardImage != null) {
-      _data.files.addAll(idCardImage.map((i) => MapEntry(
-          'idCardImage',
-          MultipartFile.fromFileSync(
-            i.path,
-            filename: i.path.split(Platform.pathSeparator).last,
-            contentType: MediaType.parse('image/jpeg'),
-          ))));
-    }
-    if (bankAccountImages != null) {
-      _data.files.addAll(bankAccountImages.map((i) => MapEntry(
-          'bankAccountImages',
-          MultipartFile.fromFileSync(
-            i.path,
-            filename: i.path.split(Platform.pathSeparator).last,
-            contentType: MediaType.parse('image/jpeg'),
-          ))));
-    }
-    if (hectoEncryptedBankAccountPdf != null) {
-      _data.files.addAll(hectoEncryptedBankAccountPdf.map((i) => MapEntry(
-          'hectoEncryptedBankAccountPdf',
-          MultipartFile.fromFileSync(
-            i.path,
-            filename: i.path.split(Platform.pathSeparator).last,
-            contentType: MediaType.parse('text/plain'),
-          ))));
-    }
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<UploadImageFile>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -1087,7 +1818,7 @@ class _ApiDataSource implements ApiDataSource {
     )
             .compose(
               _dio.options,
-              '/stocks/${stockCode}/board-groups/${boardGroupName}/posts/holder-list-read-and-copy',
+              '/images',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1096,31 +1827,28 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<Post>.fromJson(
+    final value = DataResponse<UploadImageFile>.fromJson(
       _result.data!,
-      (json) => Post.fromJson(json as Map<String, dynamic>),
+      (json) => UploadImageFile.fromJson(json as Map<String, dynamic>),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<List<BoardGroupCategory>>> getBoardGroupCategories(
-    String stockCode,
-    String boardGroup,
-  ) async {
+  Future<DataResponse<List<ProfileDefaultImage>>> defaultProfileImages() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<BoardGroupCategory>>>(Options(
+        _setStreamType<DataResponse<List<ProfileDefaultImage>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/stocks/${stockCode}/board-groups/${boardGroup}/categories',
+              '/images/default-profile-images',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1129,124 +1857,44 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<BoardGroupCategory>>.fromJson(
+    final value = DataResponse<List<ProfileDefaultImage>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
-              .map<BoardGroupCategory>(
-                  (i) => BoardGroupCategory.fromJson(i as Map<String, dynamic>))
+              .map<ProfileDefaultImage>((i) =>
+                  ProfileDefaultImage.fromJson(i as Map<String, dynamic>))
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<List<RankingStock>>> getRankingStockList(
-    String sorts,
-    int size,
-  ) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'sorts': sorts,
-      r'size': size,
-    };
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<RankingStock>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/stock-rankings',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<List<RankingStock>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<RankingStock>(
-                  (i) => RankingStock.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return _value;
-  }
-
-  @override
-  Future<DataResponse<List<SearchRanking>>> getSearchRankingList() async {
+  Future<void> health() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<SearchRanking>>>(Options(
+    await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-            .compose(
-              _dio.options,
-              '/stocks/search-recommendations',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<List<SearchRanking>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<SearchRanking>(
-                  (i) => SearchRanking.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return _value;
+        .compose(
+          _dio.options,
+          '/health',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
   }
 
   @override
-  Future<StockHome> getStockHome(String stockCode) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<StockHome>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/stocks/${stockCode}/home',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = StockHome.fromJson(_result.data!);
-    return _value;
-  }
-
-  @override
-  Future<void> updateSolidarityLeaderMessage(
-    String stockCode,
+  Future<void> updateAdminSolidarityLeaderComment(
     int solidarityId,
     Map<String, dynamic> data,
   ) async {
@@ -1262,7 +1910,7 @@ class _ApiDataSource implements ApiDataSource {
     )
         .compose(
           _dio.options,
-          '/stocks/${stockCode}/solidarity/${solidarityId}/leader/message',
+          '/admin/solidarity-leaders/${solidarityId}/message',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -1274,26 +1922,199 @@ class _ApiDataSource implements ApiDataSource {
   }
 
   @override
-  Future<DataResponse<List<Solidarity>>> getPagedMySolidarityList(
-    int page,
-    int size,
+  Future<void> setAdminSolidarityLeader(
+    int solidarityId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/solidarity-leaders/${solidarityId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> setAdminSolidarityCorporationLeader(
+    int solidarityId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/solidarity-leaders/${solidarityId}/corporate-user',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> deleteCorporation(int corporationId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/corporate-users/${corporationId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> withdrawSolidarityLeaderApplicant(
+    String stockCode,
+    int solidarityLeaderApplicantId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stocks/${stockCode}/solidarity-leader-applicants/${solidarityLeaderApplicantId}/withdraw',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> unsetAdminSolidarityLeader(
+    int solidarityId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/solidarity-leaders/${solidarityId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<Solidarity>> setAdminSolidarityActive(
+      int solidarityId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Solidarity>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/solidarity/${solidarityId}/active',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Solidarity>.fromJson(
+      _result.data!,
+      (json) => Solidarity.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<StockGroup>>> getAdminStockGroups(
+    int? stockGroupId,
+    int? page,
+    int? size,
+    String? sorts,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'stockGroupId': stockGroupId,
       r'page': page,
       r'size': size,
+      r'sorts': sorts,
     };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<Solidarity>>>(Options(
+        _setStreamType<DataResponse<List<StockGroup>>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/home/my-solidarity',
+              '/admin/stock-groups',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1302,56 +2123,20 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<Solidarity>>.fromJson(
+    final value = DataResponse<List<StockGroup>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
-              .map<Solidarity>(
-                  (i) => Solidarity.fromJson(i as Map<String, dynamic>))
+              .map<StockGroup>(
+                  (i) => StockGroup.fromJson(i as Map<String, dynamic>))
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
   }
 
   @override
-  Future<DataResponse<List<Solidarity>>> getWholeMySolidarityList(
-      int page) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'page': page};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<Solidarity>>>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/home/my-solidarity',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final _value = DataResponse<List<Solidarity>>.fromJson(
-      _result.data!,
-      (json) => json is List<dynamic>
-          ? json
-              .map<Solidarity>(
-                  (i) => Solidarity.fromJson(i as Map<String, dynamic>))
-              .toList()
-          : List.empty(),
-    );
-    return _value;
-  }
-
-  @override
-  Future<DataResponse<List<Solidarity>>> updateMySolidarityDisplayOrder(
+  Future<DataResponse<StockGroup>> createAdminStockGroup(
       Map<String, dynamic> data) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -1359,14 +2144,14 @@ class _ApiDataSource implements ApiDataSource {
     final _data = <String, dynamic>{};
     _data.addAll(data);
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<DataResponse<List<Solidarity>>>(Options(
-      method: 'PATCH',
+        _setStreamType<DataResponse<StockGroup>>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/home/my-solidarity',
+              '/admin/stock-groups',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -1375,16 +2160,2812 @@ class _ApiDataSource implements ApiDataSource {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final _value = DataResponse<List<Solidarity>>.fromJson(
+    final value = DataResponse<StockGroup>.fromJson(
+      _result.data!,
+      (json) => StockGroup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<CorporationUser>> createCorporation(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<CorporationUser>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/corporate-users',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<CorporationUser>.fromJson(
+      _result.data!,
+      (json) => CorporationUser.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<CorporationUser>> updateCorporation(
+    Map<String, dynamic> data,
+    int corporateId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<CorporationUser>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/corporate-users/${corporateId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<CorporationUser>.fromJson(
+      _result.data!,
+      (json) => CorporationUser.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<User>>> getAdminUsers(
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+    String? filterType,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+      r'filterType': filterType,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<User>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<User>>.fromJson(
       _result.data!,
       (json) => json is List<dynamic>
           ? json
-              .map<Solidarity>(
-                  (i) => Solidarity.fromJson(i as Map<String, dynamic>))
+              .map<User>((i) => User.fromJson(i as Map<String, dynamic>))
               .toList()
           : List.empty(),
     );
-    return _value;
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<CorporationUser>>> getAdminCorporation(
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<CorporationUser>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/corporate-users',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<CorporationUser>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<CorporationUser>(
+                  (i) => CorporationUser.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> getAdminDetail(int userId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> addAdminUserRole(
+    int userId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/add-role',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> updateAdminUserNickname(
+    int userId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/nickname',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> assignAdminUserAdmin(int userId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/assign-admin',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> assignAdminRevokeAdminUser(int userId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/revoke-admin',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<UserStockData>>> getAdminUserStocks(
+    int userId,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<UserStockData>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/stocks',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<UserStockData>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<UserStockData>(
+                  (i) => UserStockData.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<UserStockData>>> getAdminUserDummyStocks(
+    int userId,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<UserStockData>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/dummy-stock',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<UserStockData>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<UserStockData>(
+                  (i) => UserStockData.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<StockGroup>>> getAdminStockGroupsAutoCompete(
+      String? searchKeyword) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'searchKeyword': searchKeyword};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<StockGroup>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stock-groups/auto-complete',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<StockGroup>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<StockGroup>(
+                  (i) => StockGroup.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockGroupDetail>> getAdminStockGroupDetail(
+      int stockGroupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockGroupDetail>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stock-groups/${stockGroupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockGroupDetail>.fromJson(
+      _result.data!,
+      (json) => StockGroupDetail.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockGroup>> updateAdminStockGroupDetail(
+    int stockGroupId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockGroup>>(Options(
+      method: 'PUT',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stock-groups/${stockGroupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockGroup>.fromJson(
+      _result.data!,
+      (json) => StockGroup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockGroup>> deleteAdminStockGroup(
+      int stockGroupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockGroup>>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stock-groups/${stockGroupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockGroup>.fromJson(
+      _result.data!,
+      (json) => StockGroup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Stock>>> getAdminStock(
+    String? code,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'code': code,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Stock>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Stock>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Stock>((i) => Stock.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockDetail>> getAdminStockDetail(String code) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockDetail>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${code}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockDetail>.fromJson(
+      _result.data!,
+      (json) => StockDetail.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<StockSummary>>> getAdminStockStatistics(
+    String code,
+    String type,
+    String periodType,
+    String period,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'period': period};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<StockSummary>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${code}/statistics/${type}/${periodType}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<StockSummary>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<StockSummary>(
+                  (i) => StockSummary.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Stock>>> getAdminStockAutoComplete(
+      String? searchKeyword) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'searchKeyword': searchKeyword};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Stock>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/auto-complete',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Stock>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Stock>((i) => Stock.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockReferenceDate>> createAdminStockReferenceDates(
+    String stockCode,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockReferenceDate>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/reference-dates',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockReferenceDate>.fromJson(
+      _result.data!,
+      (json) => StockReferenceDate.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<StockReferenceDate>>> getAdminStockReferenceDates(
+      String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<StockReferenceDate>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/reference-dates',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<StockReferenceDate>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<StockReferenceDate>(
+                  (i) => StockReferenceDate.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockReferenceDate>> updateAdminStockReferenceDates(
+    String stockCode,
+    int referenceDateId,
+    Map<String, String?> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockReferenceDate>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/reference-dates/${referenceDateId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockReferenceDate>.fromJson(
+      _result.data!,
+      (json) => StockReferenceDate.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockReferenceDate>> deleteAdminStockReferenceDates(
+    String stockCode,
+    int referenceDateId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockReferenceDate>>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/reference-dates/${referenceDateId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockReferenceDate>.fromJson(
+      _result.data!,
+      (json) => StockReferenceDate.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<List<int>> downloadAdminStockCsv(String stockCode) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/users/csv-download',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<void> addDummyStock(
+    int userId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/users/${userId}/dummy-stock',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> deleteDummyStock(
+    int userId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/users/${userId}/dummy-stock',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<List<DigitalDocumentUser>>> getAdminDigitalDocumentUsers(
+    int digitalDocumentId,
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<DigitalDocumentUser>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/digital-document/${digitalDocumentId}/users',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<DigitalDocumentUser>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<DigitalDocumentUser>((i) =>
+                  DigitalDocumentUser.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<List<int>> downloadAdminUserDigitalDocumentPdf(
+    int userId,
+    int digitalDocumentId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/users/${userId}/digital-document/${digitalDocumentId}/download-document',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<List<int>> getAdminDocumentPreview(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/digital-document/preview',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<void> deleteAdminDigitalDocument(dynamic digitalDocumentId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/digital-document/${digitalDocumentId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> createAdminDigitalDocumentZipFile(
+    int digitalDocumentId,
+    bool isSecured,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'isSecured': isSecured};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/digital-document/${digitalDocumentId}/zip-file-request',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<List<int>> downloadAdminDigitalDocumentCsv(
+      int digitalDocumentId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/digital-document/${digitalDocumentId}/csv-download',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<void> withdrawAdminUserService(String finpongAccessToken) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/users/mydata/withdraw/${finpongAccessToken}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<VerifyAuth> loginAdmin(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<VerifyAuth>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/auth/login',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = VerifyAuth.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<User>> changeAdminPassword(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<User>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/auth/change-password',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<User>.fromJson(
+      _result.data!,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Post>>> getAdminPosts(
+    String boardGroup,
+    String? boardCategory,
+    String? searchType,
+    String? searchKeyword,
+    String? status,
+    int? page,
+    int? size,
+    String? sorts,
+    String? searchStartDate,
+    String? searchEndDate,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'boardCategory': boardCategory,
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'status': status,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+      r'searchStartDate': searchStartDate,
+      r'searchEndDate': searchEndDate,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Post>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/board-groups/${boardGroup}/posts',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Post>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Post>((i) => Post.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Post>> createAdminBoardPost(
+    String stockCode,
+    String boardGroupName,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroupName}/posts',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Post>.fromJson(
+      _result.data!,
+      (json) => Post.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Post>> getAdminPostDetail(
+    String stockCode,
+    String? boardGroupName,
+    int? postId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroupName}/posts/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Post>.fromJson(
+      _result.data!,
+      (json) => Post.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> deleteAdminBoardPost(
+    String stockCode,
+    String boardGroupName,
+    int postId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stocks/${stockCode}/board-groups/${boardGroupName}/posts/${postId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<Post>> updateAdminBoardPost(
+    String stockCode,
+    String boardGroupName,
+    int postId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroupName}/posts/${postId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Post>.fromJson(
+      _result.data!,
+      (json) => Post.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> duplicateAdminPosts(
+    dynamic postId,
+    int stockGroupId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/posts/${postId}/stock-groups/${stockGroupId}/duplicate',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<Post>> duplicateAdimnStockGroup(
+    dynamic postId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<DataResponse<Post>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/posts/${postId}/duplicate',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Post>.fromJson(
+      _result.data!,
+      (json) => Post.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<ReportList>>> getAdminReports(
+    String reportType,
+    String? reportStatus,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'reportStatus': reportStatus,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<ReportList>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/${reportType}/reports',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<ReportList>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<ReportList>(
+                  (i) => ReportList.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<ReportDetail> getAdminReportDetail(
+    String reportType,
+    int reportId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ReportDetail>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/${reportType}/reports/${reportId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ReportDetail.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ReportDetail> updateAdminReportStatus(
+    String reportType,
+    int reportId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ReportDetail>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/${reportType}/reports/${reportId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ReportDetail.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Comment>>> stockBoardAdminPostComments(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int page,
+    int size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Comment>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Comment>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Comment>((i) => Comment.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Comment>> createAdminPostComment(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Comment>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Comment>.fromJson(
+      _result.data!,
+      (json) => Comment.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Comment>> editAdminPostComment(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int commentId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Comment>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments/${commentId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Comment>.fromJson(
+      _result.data!,
+      (json) => Comment.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Comment>>> getAdminPostCommentReplies(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int commentId,
+    int page,
+    int size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Comment>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments/${commentId}/replies',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Comment>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Comment>((i) => Comment.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Comment>> createAdminPostCommentReplies(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int commentId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Comment>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments/${commentId}/replies',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Comment>.fromJson(
+      _result.data!,
+      (json) => Comment.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Comment>> updateAdminCommentStatus(
+    String stockCode,
+    String boardGroup,
+    int postId,
+    int commentId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Comment>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stocks/${stockCode}/board-groups/${boardGroup}/posts/${postId}/comments/${commentId}/status',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Comment>.fromJson(
+      _result.data!,
+      (json) => Comment.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<CMSCommons>> getAdminCMSCommons() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<CMSCommons>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/cms-commons',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<CMSCommons>.fromJson(
+      _result.data!,
+      (json) => CMSCommons.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<GroupPush>>> getAdminPushes(
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<GroupPush>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/pushes',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<GroupPush>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<GroupPush>(
+                  (i) => GroupPush.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<IndividualPush>>> getAdminIndividualPushes(
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<IndividualPush>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/automated-pushes',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<IndividualPush>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<IndividualPush>(
+                  (i) => IndividualPush.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<GroupPush>> createAdminPush(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<GroupPush>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/pushes',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<GroupPush>.fromJson(
+      _result.data!,
+      (json) => GroupPush.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> deleteAdminPush(int pushId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/pushes/${pushId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<List<Popup>>> getAdminPopups(
+    String? searchType,
+    String? searchKeyword,
+    String? popupStatus,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'popupStatus': popupStatus,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Popup>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/popups',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Popup>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Popup>((i) => Popup.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Popup>> getAdminPopup(int popupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Popup>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/popups/${popupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Popup>.fromJson(
+      _result.data!,
+      (json) => Popup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Popup>> createAdminPopup(
+      Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Popup>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/popups',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Popup>.fromJson(
+      _result.data!,
+      (json) => Popup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Popup>> updateAdminPopup(
+    int popupId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Popup>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/popups/${popupId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Popup>.fromJson(
+      _result.data!,
+      (json) => Popup.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> deleteAdminPopup(int popupId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/popups/${popupId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<UploadImageFile>> uploadAdminImages(
+    String fileContentType,
+    List<int> file,
+    String? description,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.files.add(MapEntry(
+        'file',
+        MultipartFile.fromBytes(
+          file,
+          filename: 'user_profile.jpg',
+          contentType: MediaType.parse('image/jpeg'),
+        )));
+    if (description != null) {
+      _data.fields.add(MapEntry(
+        'description',
+        description,
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<UploadImageFile>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      contentType: 'multipart/form-data',
+    )
+            .compose(
+              _dio.options,
+              '/admin/images/${fileContentType}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<UploadImageFile>.fromJson(
+      _result.data!,
+      (json) => UploadImageFile.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<DashboardStatistics>>> getAdminStatistics(
+    String? type,
+    String? stockCode,
+    String? periodType,
+    String? searchFrom,
+    String? searchTo,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'type': type,
+      r'stockCode': stockCode,
+      r'periodType': periodType,
+      r'searchFrom': searchFrom,
+      r'searchTo': searchTo,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<DashboardStatistics>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/dashboard/statistics',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<DashboardStatistics>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<DashboardStatistics>((i) =>
+                  DashboardStatistics.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<DashboardGenderStatistics>> getAdminGenderStatistics(
+    String? periodType,
+    String? searchFrom,
+    String? searchTo,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'periodType': periodType,
+      r'searchFrom': searchFrom,
+      r'searchTo': searchTo,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<DashboardGenderStatistics>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/dashboard/statistics/gender',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<DashboardGenderStatistics>.fromJson(
+      _result.data!,
+      (json) =>
+          DashboardGenderStatistics.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<DashboardAgeStatistics>> getAdminAgeStatistics(
+    String? periodType,
+    String? searchFrom,
+    String? searchTo,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'periodType': periodType,
+      r'searchFrom': searchFrom,
+      r'searchTo': searchTo,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<DashboardAgeStatistics>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/dashboard/statistics/age',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<DashboardAgeStatistics>.fromJson(
+      _result.data!,
+      (json) => DashboardAgeStatistics.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<StockReferenceDate>>
+      updateAdminDigitalDocumentReferenceDate(
+    int? digitalDocumentId,
+    int? referenceDateId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<StockReferenceDate>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/digital-document/${digitalDocumentId}/reference-dates/${referenceDateId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<StockReferenceDate>.fromJson(
+      _result.data!,
+      (json) => StockReferenceDate.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Campaign>>> getCampaigns(
+    String? searchKeyword,
+    String? searchType,
+    String? boardCategory,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchKeyword': searchKeyword,
+      r'searchType': searchType,
+      r'boardCategory': boardCategory,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Campaign>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/campaigns',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Campaign>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Campaign>(
+                  (i) => Campaign.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<DataResponse<Campaign>> getCampaignDetail(int campaignId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Campaign>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/campaigns/${campaignId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Campaign>.fromJson(
+      _result.data!,
+      (json) => Campaign.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> postCampaign(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/campaigns',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<Campaign>> updateCampaign(
+    int campaignId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<Campaign>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/campaigns/${campaignId}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<Campaign>.fromJson(
+      _result.data!,
+      (json) => Campaign.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> deleteCampaign(int campaignId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/campaigns/${campaignId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> requestZipFile(
+    int campaignId,
+    bool isSecured,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'isSecured': isSecured};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/campaigns/${campaignId}/zip-file-request',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<List<int>> downloadDigitalDocs(int campaignId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+      responseType: ResponseType.bytes,
+    )
+            .compose(
+              _dio.options,
+              '/admin/campaigns/${campaignId}/csv-download',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = _result.data!.cast<int>();
+    return value;
+  }
+
+  @override
+  Future<DataResponse<List<Post>>> getAcceptorDigitalDocsList(
+    String digitalDocumentType,
+    String? searchType,
+    String? searchKeyword,
+    int? page,
+    int? size,
+    String? sorts,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'searchType': searchType,
+      r'searchKeyword': searchKeyword,
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<Post>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/acceptors/digital-document/${digitalDocumentType}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<Post>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<Post>((i) => Post.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> assignAcceptUser(
+    String code,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stocks/${code}/acceptor-users',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> fireAcceptUser(
+    String code,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stocks/${code}/acceptor-users',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<DataResponse<List<StopWord>>> getStopWords(
+    int? page,
+    int? size,
+    String? sorts,
+    String? filterType,
+    String? searchKeyword,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'page': page,
+      r'size': size,
+      r'sorts': sorts,
+      r'filterType': filterType,
+      r'searchKeyword': searchKeyword,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DataResponse<List<StopWord>>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/admin/stop-words',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DataResponse<List<StopWord>>.fromJson(
+      _result.data!,
+      (json) => json is List<dynamic>
+          ? json
+              .map<StopWord>(
+                  (i) => StopWord.fromJson(i as Map<String, dynamic>))
+              .toList()
+          : List.empty(),
+    );
+    return value;
+  }
+
+  @override
+  Future<void> createStopWords(Map<String, dynamic> data) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stop-words',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> changeStopWordStatus(
+    int stopWordId,
+    Map<String, dynamic> data,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(data);
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stop-words/${stopWordId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
+  }
+
+  @override
+  Future<void> deleteStopWords(int stopWordId) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/admin/stop-words/${stopWordId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        ))));
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

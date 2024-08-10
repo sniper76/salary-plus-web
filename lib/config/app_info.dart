@@ -1,3 +1,3 @@
 class AppInfo {
-  String get appVersion => 'WEB';
+  String get appVersion => 'CMS';
 }

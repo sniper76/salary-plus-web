@@ -1,19 +1,26 @@
-import 'package:salary_plus_web/data/response/paging.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:act_cms/domain/model/paging.dart';
+import 'package:act_cms/domain/model/searching.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-part 'data_response.freezed.dart';
 part 'data_response.g.dart';
 
-@Freezed(genericArgumentFactories: true)
-class DataResponse<T> with _$DataResponse<T> {
-  const factory DataResponse({
-    Paging? paging,
-    T? data,
-  }) = _DataResponse<T>;
+@JsonSerializable(genericArgumentFactories: true)
+class DataResponse<T> {
+  final Paging? paging;
+  final Searching? search;
+  final T? data;
+
+  const DataResponse({
+    this.paging,
+    this.search,
+    this.data,
+  });
 
   factory DataResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
   ) =>
       _$DataResponseFromJson(json, fromJsonT);
+
+  Map<String, dynamic> toJson(Object Function(T value) toJsonT) => _$DataResponseToJson(this, toJsonT);
 }
