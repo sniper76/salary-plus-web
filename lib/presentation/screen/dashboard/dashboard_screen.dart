@@ -35,6 +35,10 @@ class _DashboardState extends State<DashboardScreen> with SingleTickerProviderSt
   final textDailyKey = GlobalKey();
   String period = "";
 
+  int totalCount = 20;
+  int columnCount = 7;
+  int rowCount = 0;
+
   static Map<String, int> colorMap = {
     'DAILY_USER_REGISTRATION_COUNT': 0xff439CFB,
     'DAILY_USER_WITHDRAWAL_COUNT': 0xffFF0000,
@@ -136,56 +140,6 @@ class _DashboardState extends State<DashboardScreen> with SingleTickerProviderSt
       backgroundColor: const Color(0xfff5f5f5),
       appBar: MainAppBar(
         mainTitle: "대시보드",
-        trailingWidgets: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const SizedBox(
-                height: 8,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  period,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff333333)),
-                ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.chevron_left,
-                      size: 24,
-                      color: Color(0xff333333),
-                    ), // 왼쪽 화살표 아이콘
-                    onPressed: () {
-                      // 왼쪽 아이콘 버튼 클릭 시 수행할 동작
-                      _handleMove("back");
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.chevron_right, size: 24, color: Color(0xff333333)), // 오른쪽 화살표 아이콘
-                    onPressed: () {
-                      // 오른쪽 아이콘 버튼 클릭 시 수행할 동작
-                      _handleMove("forward");
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.refresh, size: 24, color: Color(0xff333333)), // 오른쪽 화살표 아이콘
-                    onPressed: () {
-                      // 오른쪽 아이콘 버튼 클릭 시 수행할 동작
-                      _handleMove("today");
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 54,
-          )
-        ],
       ),
       create: (context) => DashboardBloc()
         ..add(
@@ -199,6 +153,15 @@ class _DashboardState extends State<DashboardScreen> with SingleTickerProviderSt
   }
 
   Widget _buildMainScreen(BuildContext context, DashboardBloc bloc, DashboardState state) {
+    // 예시 데이터를 생성
+    List<String> dataList = List.generate(20, (index) => 'Item ${index + 1}');
+
+    // Row 당 아이템 개수를 설정
+    List<int> itemsPerRow = [7, 7, 6];
+
+    // 데이터를 Row 단위로 분할
+    List<List<String>> rows = _splitDataIntoRows(dataList, itemsPerRow);
+
     return BlocListener<DashboardBloc, DashboardState>(
       listenWhen: (previous, current) => previous.search != current.search,
       listener: (context, state) {
@@ -206,75 +169,84 @@ class _DashboardState extends State<DashboardScreen> with SingleTickerProviderSt
           period = "${state.search?.from} ~ ${state.search?.to}";
         });
       },
-      child: DefaultTabController(
-        length: 2, // 탭의 개수
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 54, right: 54),
-            child: SizedBox(
-              width: 1352, // 컨테이너의 가로 길이 고정
-              child: Scaffold(
-                appBar: AppBar(
-                  backgroundColor: const Color(0xfff5f5f5),
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(12),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          color: const Color(0xfff5f5f5),
-                          child: TabBar(
-                            controller: _tabController,
-                            isScrollable: true,
-                            labelColor: Colors.black,
-                            tabs: [
-                              Container(
-                                width: 100, // 각 탭의 너비
-                                alignment: Alignment.center,
-                                child: const Tab(text: '월별'),
-                              ),
-                              Container(
-                                width: 100, // 각 탭의 너비
-                                alignment: Alignment.center,
-                                child: const Tab(text: '일별'),
-                              ),
-                            ],
-                            indicatorColor: Colors.blue, // 선택된 탭에 파란색 언더바
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                body: TabBarView(
-                  controller: _tabController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _buildBasicScreen(
-                      context,
-                      bloc,
-                      state,
-                      state.basicStatsMonthly,
-                      state.stockStatsMonthly,
-                      state.genderStatsMonthly,
-                      state.ageStatsMonthly,
-                      textMonthlyKey,
-                    ),
-                    _buildBasicScreen(
-                      context,
-                      bloc,
-                      state,
-                      state.basicStatsDaily,
-                      state.stockStatsDaily,
-                      state.genderStatsDaily,
-                      state.ageStatsDaily,
-                      textDailyKey,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+      child: Column(
+        children: rows.map((row) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: row.map((item) {
+              return _buildGridItem(item);
+            }).toList(),
+          );
+        }).toList(),
+      ),
+      // child: Container(
+      //   width: double.infinity,
+      //   margin: const EdgeInsets.only(left: 10, right: 10),
+      //   color: Colors.grey.shade100,
+      //   child: GridView.builder(
+      //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //       crossAxisCount: 7, // 바둑판의 열 수
+      //       mainAxisSpacing: 10, // 각 셀의 세로 간격
+      //       crossAxisSpacing: 10, // 각 셀의 가로 간격
+      //       childAspectRatio: 2, // 셀의 가로 세로 비율
+      //     ),
+      //     itemCount: 7, // 아이템 수
+      //     itemBuilder: (context, index) {
+      //       return GridTile(
+      //         child: ElevatedButton(
+      //           style: ElevatedButton.styleFrom(
+      //             backgroundColor: AppTheme.primaryColor[600],
+      //             fixedSize: const Size(120, 50),
+      //             shape: RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(8),
+      //             ), // 모서리의 둥근 정도
+      //           ),
+      //           onPressed: () {
+      //             print("onPressed");
+      //           },
+      //           child: Column(
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Icon(Icons.star, size: 30),
+      //               SizedBox(height: 5),
+      //               Text('Button ${index + 1}'),
+      //             ],
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //   ),
+      // ),
+    );
+  }
+
+  // 데이터를 원하는 크기만큼의 Row로 분할하는 함수
+  List<List<String>> _splitDataIntoRows(List<String> dataList, List<int> itemsPerRow) {
+    List<List<String>> rows = [];
+    int startIndex = 0;
+
+    for (int itemCount in itemsPerRow) {
+      rows.add(dataList.sublist(startIndex, startIndex + itemCount));
+      startIndex += itemCount;
+    }
+
+    return rows;
+  }
+
+  Widget _buildGridItem(String title) {
+    return Container(
+      width: 120, // 원하는 width 설정
+      height: 80, // 원하는 height 설정
+      margin: const EdgeInsets.only(left: 10, bottom: 8.0),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.star, size: 30),
+            SizedBox(height: 5),
+            Text(title),
+          ],
         ),
       ),
     );
