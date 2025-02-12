@@ -1,0 +1,14 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SimpleStock _$SimpleStockFromJson(Map<String, dynamic> json) => SimpleStock(
+      code: json['code'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$SimpleStockToJson(SimpleStock instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'name': instance.name,
+    };

@@ -1,0 +1,33 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SectionItem _$SectionItemFromJson(Map<String, dynamic> json) => SectionItem(
+      title: json['title'] as String,
+      link: json['link'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      viewCount: (json['viewCount'] as num?)?.toInt() ?? 0,
+      likeCount: (json['likeCount'] as num?)?.toInt() ?? 0,
+      commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
+      deleted: json['deleted'] as bool? ?? false,
+      reported: json['reported'] as bool? ?? false,
+      boardGroupCategory: json['boardCategory'] == null
+          ? null
+          : BoardGroupCategory.fromJson(
+              json['boardCategory'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SectionItemToJson(SectionItem instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'link': instance.link,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+      'viewCount': instance.viewCount,
+      'likeCount': instance.likeCount,
+      'commentCount': instance.commentCount,
+      'deleted': instance.deleted,
+      'reported': instance.reported,
+      'boardCategory': instance.boardGroupCategory,
+    };

@@ -1,0 +1,13 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Home _$HomeFromJson(Map<String, dynamic> json) => Home(
+      mySolidarity: (json['mySolidarity'] as List<dynamic>?)
+          ?.map((e) => Solidarity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
+      'mySolidarity': instance.mySolidarity,
+    };

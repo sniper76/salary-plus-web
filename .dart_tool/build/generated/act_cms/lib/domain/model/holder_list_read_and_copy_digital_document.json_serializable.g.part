@@ -1,0 +1,19 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+HolderListReadAndCopyDigitalDocument
+    _$HolderListReadAndCopyDigitalDocumentFromJson(Map<String, dynamic> json) =>
+        HolderListReadAndCopyDigitalDocument(
+          digitalDocumentId: (json['digitalDocumentId'] as num).toInt(),
+          fileName: json['fileName'] as String,
+          digitalDocumentOwnerId: (json['userId'] as num).toInt(),
+        );
+
+Map<String, dynamic> _$HolderListReadAndCopyDigitalDocumentToJson(
+        HolderListReadAndCopyDigitalDocument instance) =>
+    <String, dynamic>{
+      'digitalDocumentId': instance.digitalDocumentId,
+      'fileName': instance.fileName,
+      'userId': instance.digitalDocumentOwnerId,
+    };

@@ -1,0 +1,25 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StockReferenceDate _$StockReferenceDateFromJson(Map<String, dynamic> json) =>
+    StockReferenceDate(
+      id: (json['id'] as num).toInt(),
+      stockCode: json['stockCode'] as String,
+      referenceDate: DateTime.parse(json['referenceDate'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$StockReferenceDateToJson(StockReferenceDate instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'stockCode': instance.stockCode,
+      'referenceDate': instance.referenceDate.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };

@@ -1,0 +1,25 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StopWord _$StopWordFromJson(Map<String, dynamic> json) => StopWord(
+      id: (json['id'] as num).toInt(),
+      word: json['word'] as String,
+      status: $enumDecode(_$StopWordStatusEnumMap, json['status']),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$StopWordToJson(StopWord instance) => <String, dynamic>{
+      'id': instance.id,
+      'word': instance.word,
+      'status': _$StopWordStatusEnumMap[instance.status]!,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
+    };
+
+const _$StopWordStatusEnumMap = {
+  StopWordStatus.active: 'ACTIVE',
+  StopWordStatus.inactive: 'INACTIVE',
+  StopWordStatus.inactiveByAdmin: 'INACTIVE_BY_ADMIN',
+};

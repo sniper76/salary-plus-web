@@ -1,0 +1,11 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+CanUse _$CanUseFromJson(Map<String, dynamic> json) => CanUse(
+      canUse: json['canUse'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$CanUseToJson(CanUse instance) => <String, dynamic>{
+      'canUse': instance.canUse,
+    };

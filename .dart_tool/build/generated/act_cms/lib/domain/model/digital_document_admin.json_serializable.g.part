@@ -1,0 +1,68 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DigitalDocumentAdmin _$DigitalDocumentAdminFromJson(
+        Map<String, dynamic> json) =>
+    DigitalDocumentAdmin(
+      type: json['type'] as String,
+      companyName: json['companyName'] as String,
+      acceptUserId: (json['acceptUserId'] as num?)?.toInt(),
+      stockReferenceDateId: (json['stockReferenceDateId'] as num?)?.toInt(),
+      targetStartDate: json['targetStartDate'] == null
+          ? null
+          : DateTime.parse(json['targetStartDate'] as String),
+      targetEndDate: json['targetEndDate'] == null
+          ? null
+          : DateTime.parse(json['targetEndDate'] as String),
+      shareholderMeetingType: json['shareholderMeetingType'] as String?,
+      shareholderMeetingName: json['shareholderMeetingName'] as String?,
+      shareholderMeetingDate: json['shareholderMeetingDate'] == null
+          ? null
+          : DateTime.parse(json['shareholderMeetingDate'] as String),
+      designatedAgentNames: json['designatedAgentNames'] as String?,
+      childItems: (json['childItems'] as List<dynamic>?)
+          ?.map((e) => DigitalDocumentItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      companyRegistrationNumber: json['companyRegistrationNumber'] as String?,
+      title: json['title'] as String,
+      content: json['content'] as String,
+      idCardWatermarkType: $enumDecode(
+          _$IdCardWatermarkTypeEnumMap, json['idCardWatermarkType']),
+      isDisplayStockQuantity: json['isDisplayStockQuantity'] as bool,
+      attachOptions: json['attachOptions'] == null
+          ? null
+          : JsonAttachOptions.fromJson(
+              json['attachOptions'] as Map<String, dynamic>),
+      version: json['version'] as String?,
+    );
+
+Map<String, dynamic> _$DigitalDocumentAdminToJson(
+        DigitalDocumentAdmin instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'companyName': instance.companyName,
+      'acceptUserId': instance.acceptUserId,
+      'stockReferenceDateId': instance.stockReferenceDateId,
+      'targetStartDate': dateToJson(instance.targetStartDate),
+      'targetEndDate': dateToJson(instance.targetEndDate),
+      'shareholderMeetingType': instance.shareholderMeetingType,
+      'shareholderMeetingName': instance.shareholderMeetingName,
+      'shareholderMeetingDate': dateToJson(instance.shareholderMeetingDate),
+      'designatedAgentNames': instance.designatedAgentNames,
+      'childItems': instance.childItems,
+      'companyRegistrationNumber': instance.companyRegistrationNumber,
+      'title': instance.title,
+      'content': instance.content,
+      'isDisplayStockQuantity': instance.isDisplayStockQuantity,
+      'idCardWatermarkType':
+          _$IdCardWatermarkTypeEnumMap[instance.idCardWatermarkType]!,
+      'attachOptions': instance.attachOptions,
+      'version': instance.version,
+    };
+
+const _$IdCardWatermarkTypeEnumMap = {
+  IdCardWatermarkType.actLogo: 'ACT_LOGO',
+  IdCardWatermarkType.actLogoWithDate: 'ACT_LOGO_WITH_DATE',
+  IdCardWatermarkType.none: 'NONE',
+};

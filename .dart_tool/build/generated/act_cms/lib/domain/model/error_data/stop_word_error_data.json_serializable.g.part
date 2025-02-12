@@ -1,0 +1,15 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+StopWordErrorData _$StopWordErrorDataFromJson(Map<String, dynamic> json) =>
+    StopWordErrorData(
+      word: json['word'] as String,
+      stopWordId: (json['stopWordId'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$StopWordErrorDataToJson(StopWordErrorData instance) =>
+    <String, dynamic>{
+      'word': instance.word,
+      'stopWordId': instance.stopWordId,
+    };

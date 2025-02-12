@@ -1,0 +1,14 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+MyDataTokenResponse _$MyDataTokenResponseFromJson(Map<String, dynamic> json) =>
+    MyDataTokenResponse(
+      token: json['token'] as String,
+    );
+
+Map<String, dynamic> _$MyDataTokenResponseToJson(
+        MyDataTokenResponse instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+    };

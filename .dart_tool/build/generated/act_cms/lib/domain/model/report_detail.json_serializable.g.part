@@ -1,0 +1,26 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ReportDetail _$ReportDetailFromJson(Map<String, dynamic> json) => ReportDetail(
+      post: json['post'] == null
+          ? null
+          : Post.fromJson(json['post'] as Map<String, dynamic>),
+      comment: json['comment'] == null
+          ? null
+          : Comment.fromJson(json['comment'] as Map<String, dynamic>),
+      reply: (json['reply'] as List<dynamic>?)
+          ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      report: json['report'] == null
+          ? null
+          : Report.fromJson(json['report'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ReportDetailToJson(ReportDetail instance) =>
+    <String, dynamic>{
+      'post': instance.post,
+      'comment': instance.comment,
+      'reply': instance.reply,
+      'report': instance.report,
+    };

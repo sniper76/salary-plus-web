@@ -1,0 +1,36 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+DashboardStatistics _$DashboardStatisticsFromJson(Map<String, dynamic> json) =>
+    DashboardStatistics(
+      type: json['type'] as String,
+      title: json['title'] as String,
+      value: (json['value'] as num).toDouble(),
+      periodType: $enumDecode(_$PeriodTypeEnumMap, json['periodType'],
+          unknownValue: PeriodType.daily),
+      summary: json['summary'] == null
+          ? null
+          : DashboardStatisticsSummary.fromJson(
+              json['summary'] as Map<String, dynamic>),
+      items: (json['items'] as List<dynamic>)
+          .map((e) =>
+              DashboardStatisticsItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$DashboardStatisticsToJson(
+        DashboardStatistics instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'title': instance.title,
+      'value': instance.value,
+      'periodType': _$PeriodTypeEnumMap[instance.periodType]!,
+      'summary': instance.summary,
+      'items': instance.items,
+    };
+
+const _$PeriodTypeEnumMap = {
+  PeriodType.daily: 'DAILY',
+  PeriodType.monthly: 'MONTHLY',
+};

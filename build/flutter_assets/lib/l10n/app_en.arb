@@ -1,0 +1,13 @@
+{
+  "title": "Hello, World!",
+  "change_language": "Change Language",
+  "write_post": "Write Post",
+  "login": "Login",
+  "form_id": "ID",
+  "form_id_hintText": "Please enter ID",
+  "form_pwd": "Password",
+  "form_pwd_hintText": "Please enter Password",
+  "logout": "Logout",
+  "stock": "Stock",
+  "info_service": "Service Info"
+}
